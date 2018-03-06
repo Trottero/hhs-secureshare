@@ -15,11 +15,11 @@ namespace SecureShare.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var client = new HttpClient();
-            var message = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55555/api/values");
-            var response = await client.SendAsync(message);
-            var text = await response.Content.ReadAsStringAsync();
-            return View("Index",text);
+//            var client = new HttpClient();
+//            var message = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55555/api/values");
+//            var response = await client.SendAsync(message);
+//            var text = await response.Content.ReadAsStringAsync();
+            return View("Index");
         }
 
         public IActionResult About()
