@@ -11,6 +11,7 @@ using SecureShare.Models;
 namespace SecureShare.Controllers
 {
     [Authorize]
+    [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
         public async Task<IActionResult> Index()
