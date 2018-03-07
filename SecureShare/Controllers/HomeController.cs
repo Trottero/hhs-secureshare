@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
+using SecureShare.Website.ViewModels;
 
 
 namespace SecureShare.Website.Controllers
