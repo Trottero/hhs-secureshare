@@ -3,10 +3,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
-using SecureShare.Website.Extensions;
 using SecureShare.Website.ViewModels;
 
 
@@ -30,8 +28,8 @@ namespace SecureShare.Website.Controllers
 				UserId = Guid.NewGuid()
 			};
 
-			ViewData["Message1"] = await _userService.AddUser(user);
-			ViewData["Message2"] = await _userService.GetAllUsers();
+			ViewData["Message1"] = await _userService.AddUserAsync(null);
+			ViewData["Message2"] = await _userService.GetAllUsersAsync();
 
 
 			return View("Index");

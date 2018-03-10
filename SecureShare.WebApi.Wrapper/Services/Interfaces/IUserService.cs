@@ -7,11 +7,11 @@ namespace SecureShare.WebApi.Wrapper.Services.Interfaces
 {
 	public interface IUserService
 	{
-		Task<string> GetAllUsers();
-		Task<string> GetUserByEntity(User user);
-		Task<string> GetUserById(Guid userId);
-		Task<string> AddUser(User user);
-		Task<string> DeleteUserByEntity(User user);
-		Task<string> DeleteUserById(Guid userId);
+		Task<string> GetAllUsersAsync();
+		Task<string> GetUserByEntityAsync(User user);
+		Task<string> GetUserByIdAsync(Guid userId);
+		Task<string> AddUserAsync(User user);
+		Task<string> DeleteUserByEntityAsync(User user);
+		Task<string> DeleteUserByIdAsync(Guid userId);
 	}
 }

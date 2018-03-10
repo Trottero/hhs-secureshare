@@ -5,7 +5,12 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureShare.Website", "SecureShare\SecureShare.Website.csproj", "{3E803416-0AC1-4D18-92C9-F6CA7978B542}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureShare.WebApi.Wrapper", "SecureShare.WebApi.Wrapper\SecureShare.WebApi.Wrapper.csproj", "{4264B6FA-A637-419F-9474-53151AEC3ECE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureShare.WebApi.Wrapper", "SecureShare.WebApi.Wrapper\SecureShare.WebApi.Wrapper.csproj", "{4264B6FA-A637-419F-9474-53151AEC3ECE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureShare.Test", "SecureShare.Test\SecureShare.Test.csproj", "{4376AEA3-8C8B-420B-AFB1-3E31228AFF79}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4264B6FA-A637-419F-9474-53151AEC3ECE} = {4264B6FA-A637-419F-9474-53151AEC3ECE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{4264B6FA-A637-419F-9474-53151AEC3ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4264B6FA-A637-419F-9474-53151AEC3ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4264B6FA-A637-419F-9474-53151AEC3ECE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4376AEA3-8C8B-420B-AFB1-3E31228AFF79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4376AEA3-8C8B-420B-AFB1-3E31228AFF79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4376AEA3-8C8B-420B-AFB1-3E31228AFF79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4376AEA3-8C8B-420B-AFB1-3E31228AFF79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

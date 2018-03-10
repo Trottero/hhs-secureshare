@@ -1,9 +1,9 @@
-﻿using SecureShare.Website.Services;
+﻿using SecureShare.WebApi.Wrapper.Services.Interfaces;
 
 namespace SecureShare.WebApi.Wrapper.Services
 {
 
-	public class ShareFileService : IShareFileService
+	public class ShareFileService : IUserFileService
 	{
 	}
 }

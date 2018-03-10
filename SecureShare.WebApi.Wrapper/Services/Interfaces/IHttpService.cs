@@ -7,9 +7,9 @@ namespace SecureShare.WebApi.Wrapper.Services.Interfaces
 {
 	public interface IHttpService
 	{
-		Task<string> GetAllRequest<T>();
-		Task<string> GetOneRequest<T>(Guid entityId);
-		Task<string> PostRequest<T>(Entity entity);
-		Task<string> DeleteRequest<T>(Guid entityId);
+		Task<string> GetAllRequestAsync<T>();
+		Task<string> GetOneRequestAsync<T>(Guid entityId);
+		Task<string> PostRequestAsync<T>(Entity entity);
+		Task<string> DeleteRequestAsync<T>(Guid entityId);
 	}
 }

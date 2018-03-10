@@ -15,36 +15,34 @@ namespace SecureShare.WebApi.Wrapper.Services
 			_service = service;
 		}
 
-		public async Task<string> GetAllUsers()
+		public async Task<string> GetAllUsersAsync()
 		{
-			return  _service.GetAllRequest<User>().Result;
+			return await _service.GetAllRequestAsync<User>();
 		}
 
-		public async Task<string> GetUserByEntity(User user)
+		public async Task<string> GetUserByEntityAsync(User user)
 		{
-			return await _service.GetOneRequest<User>(user.UserId);
+			return await _service.GetOneRequestAsync<User>(user.UserId);
 		}
 
-		public async Task<string> GetUserById(Guid userId)
+		public async Task<string> GetUserByIdAsync(Guid userId)
 		{
-			return await _service.GetOneRequest<User>(userId);
+			return await _service.GetOneRequestAsync<User>(userId);
 		}
 
-		public async Task<string> AddUser(User user)
+		public async Task<string> AddUserAsync(User user)
 		{
-			return await _service.PostRequest<User>(user);
+			return await _service.PostRequestAsync<User>(user);
 		}
 
-		public async Task<string> DeleteUserByEntity(User user)
+		public async Task<string> DeleteUserByEntityAsync(User user)
 		{
-			return await _service.DeleteRequest<User>(user.UserId);
+			return await _service.DeleteRequestAsync<User>(user.UserId);
 		}
 
-		public async Task<string> DeleteUserById(Guid userId)
+		public async Task<string> DeleteUserByIdAsync(Guid userId)
 		{
-			return await _service.DeleteRequest<User>(userId);
+			return await _service.DeleteRequestAsync<User>(userId);
 		}
-
-	
 	}
 }

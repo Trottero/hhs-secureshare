@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -22,41 +20,41 @@ namespace SecureShare.WebApi.Wrapper.Services
 			_options = optionsAccessor.Value;
 		}
 
-		public async Task<string> GetAllRequest<T>()
+		public async Task<string> GetAllRequestAsync<T>()
 		{
-			var requestUrl = CheckEntityType<T>();
+			var requestUrl = GetEntityRequestUri<T>();
 			HttpResponseMessage response = await _client.GetAsync(requestUrl);
 			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<string> GetOneRequest<T>(Guid entityId)
+		public async Task<string> GetOneRequestAsync<T>(Guid entityId)
 		{
-			var requestUrl = CheckEntityType<T>();
+			var requestUrl = GetEntityRequestUri<T>();
 			HttpResponseMessage response = await _client.GetAsync(requestUrl + entityId.ToString());
 			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<string> PostRequest<T>(Entity entity)
+		public async Task<string> PostRequestAsync<T>(Entity entity)
 		{
-			var requestUrl = CheckEntityType<T>();
+			var requestUrl = GetEntityRequestUri<T>();
 			var stringContent = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
 			HttpResponseMessage response = await _client.PostAsync(requestUrl, stringContent);
+		
 			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<string> DeleteRequest<T>(Guid entityId)
+		public async Task<string> DeleteRequestAsync<T>(Guid entityId)
 		{
-			var requestUrl = CheckEntityType<T>();
+			var requestUrl = GetEntityRequestUri<T>();
 			HttpResponseMessage response = await _client.DeleteAsync(requestUrl + entityId.ToString());
 			return await response.Content.ReadAsStringAsync();
 		}
 
-		private Uri CheckEntityType<T>()
+		private Uri GetEntityRequestUri<T>()
 		{
-	
 			if (typeof(T) == typeof(User)) return new Uri(_options.UserUrl);
 			if (typeof(T) == typeof(UserFile)) return new Uri(_options.FileUrl);
-			return null; //todo
+			throw new NullReferenceException();
 		}
 	}
 }
