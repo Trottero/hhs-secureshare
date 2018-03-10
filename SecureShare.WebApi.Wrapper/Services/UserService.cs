@@ -15,7 +15,7 @@ namespace SecureShare.WebApi.Wrapper.Services
 			_service = service;
 		}
 
-		public string GetAllUsers()
+		public async Task<string> GetAllUsers()
 		{
 			return  _service.GetAllRequest<User>().Result;
 		}

@@ -22,7 +22,7 @@ namespace SecureShare.Website.Controllers
 			_userService = userService;
 		}
 
-		public  IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
 			var user = new User
 			{
@@ -30,7 +30,8 @@ namespace SecureShare.Website.Controllers
 				UserId = Guid.NewGuid()
 			};
 
-			ViewData["Message"] = _userService.GetAllUsers();
+			ViewData["Message1"] = await _userService.AddUser(user);
+			ViewData["Message2"] = await _userService.GetAllUsers();
 
 
 			return View("Index");

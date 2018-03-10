@@ -7,7 +7,7 @@ namespace SecureShare.WebApi.Wrapper.Services.Interfaces
 {
 	public interface IUserService
 	{
-		string GetAllUsers();
+		Task<string> GetAllUsers();
 		Task<string> GetUserByEntity(User user);
 		Task<string> GetUserById(Guid userId);
 		Task<string> AddUser(User user);
