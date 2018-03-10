@@ -22,10 +22,10 @@ namespace SecureShare.WebApi.Wrapper.Services
 
 		public async Task<string> GetUserByEntityAsync(User user)
 		{
-			return await _service.GetOneRequestAsync<User>(user.UserId);
+			return await _service.GetOneRequestAsync<User>(user.UserId.ToString());
 		}
 
-		public async Task<string> GetUserByIdAsync(Guid userId)
+		public async Task<string> GetUserByIdAsync(string userId)
 		{
 			return await _service.GetOneRequestAsync<User>(userId);
 		}
@@ -37,10 +37,10 @@ namespace SecureShare.WebApi.Wrapper.Services
 
 		public async Task<string> DeleteUserByEntityAsync(User user)
 		{
-			return await _service.DeleteRequestAsync<User>(user.UserId);
+			return await _service.DeleteRequestAsync<User>(user.UserId.ToString());
 		}
 
-		public async Task<string> DeleteUserByIdAsync(Guid userId)
+		public async Task<string> DeleteUserByIdAsync(string userId)
 		{
 			return await _service.DeleteRequestAsync<User>(userId);
 		}

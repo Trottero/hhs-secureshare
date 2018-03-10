@@ -9,9 +9,9 @@ namespace SecureShare.WebApi.Wrapper.Services.Interfaces
 	{
 		Task<string> GetAllUsersAsync();
 		Task<string> GetUserByEntityAsync(User user);
-		Task<string> GetUserByIdAsync(Guid userId);
+		Task<string> GetUserByIdAsync(string userId);
 		Task<string> AddUserAsync(User user);
 		Task<string> DeleteUserByEntityAsync(User user);
-		Task<string> DeleteUserByIdAsync(Guid userId);
+		Task<string> DeleteUserByIdAsync(string userId);
 	}
 }

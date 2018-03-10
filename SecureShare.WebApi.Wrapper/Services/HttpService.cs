@@ -27,10 +27,10 @@ namespace SecureShare.WebApi.Wrapper.Services
 			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<string> GetOneRequestAsync<T>(Guid entityId)
+		public async Task<string> GetOneRequestAsync<T>(string entityId)
 		{
 			var requestUrl = GetEntityRequestUri<T>();
-			HttpResponseMessage response = await _client.GetAsync(requestUrl + entityId.ToString());
+			HttpResponseMessage response = await _client.GetAsync(requestUrl + entityId);
 			return await response.Content.ReadAsStringAsync();
 		}
 
@@ -43,10 +43,10 @@ namespace SecureShare.WebApi.Wrapper.Services
 			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<string> DeleteRequestAsync<T>(Guid entityId)
+		public async Task<string> DeleteRequestAsync<T>(string entityId)
 		{
 			var requestUrl = GetEntityRequestUri<T>();
-			HttpResponseMessage response = await _client.DeleteAsync(requestUrl + entityId.ToString());
+			HttpResponseMessage response = await _client.DeleteAsync(requestUrl + entityId);
 			return await response.Content.ReadAsStringAsync();
 		}
 

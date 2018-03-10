@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
 using SecureShare.Website.ViewModels;
@@ -20,33 +20,17 @@ namespace SecureShare.Website.Controllers
 			_userService = userService;
 		}
 
-		public async Task<IActionResult> Index()
+		public IActionResult Index()
 		{
-			var user = new User
-			{
-				DisplayName = "test",
-				UserId = Guid.NewGuid()
-			};
-
-			ViewData["Message1"] = await _userService.AddUserAsync(null);
-			ViewData["Message2"] = await _userService.GetAllUsersAsync();
-
-
-			return View("Index");
-		}
-
-		public IActionResult About()
-		{
-			ViewData["Message"] = "Your application description page.";
-
 			return View();
 		}
 
-		public IActionResult Contact()
+		public async Task<IActionResult> Profile()
 		{
-			ViewData["Message"] = "Your contact page.";
+			var oneUser = await _userService.GetUserByIdAsync("c5122eb9-1fb4-4a5b-8e01-0a1d99fc6619");
+			var test = JsonConvert.DeserializeObject<User>(oneUser);
 
-			return View();
+			return View(test);
 		}
 
 		[AllowAnonymous]

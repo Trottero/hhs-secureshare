@@ -8,8 +8,8 @@ namespace SecureShare.WebApi.Wrapper.Services.Interfaces
 	public interface IHttpService
 	{
 		Task<string> GetAllRequestAsync<T>();
-		Task<string> GetOneRequestAsync<T>(Guid entityId);
+		Task<string> GetOneRequestAsync<T>(string entityId);
 		Task<string> PostRequestAsync<T>(Entity entity);
-		Task<string> DeleteRequestAsync<T>(Guid entityId);
+		Task<string> DeleteRequestAsync<T>(string entityId);
 	}
 }
