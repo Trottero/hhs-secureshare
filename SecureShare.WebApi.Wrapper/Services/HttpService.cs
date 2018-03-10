@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
@@ -11,74 +14,49 @@ namespace SecureShare.WebApi.Wrapper.Services
 	public class HttpService : IHttpService
 	{
 		private readonly HttpClient _client;
+		private readonly ApiUrls _options;
 
-		public HttpService()
+		public HttpService(IOptions<ApiUrls> optionsAccessor)
 		{
-			_client = new HttpClient
-			{
-				BaseAddress = new Uri("http://localhost:55555/api/")
-			};
+			_client = new HttpClient();
+			_options = optionsAccessor.Value;
 		}
 
-		public async Task<string> GetOneRequest(string extension, string id)
+		public async Task<string> GetAllRequest<T>()
 		{
-			try
-			{
-				HttpResponseMessage response = await _client.GetAsync(extension + "/" + id);
-
-				response.EnsureSuccessStatusCode();
-				return await response.Content.ReadAsStringAsync();
-			}
-			catch (HttpRequestException e)
-			{
-				return e.Message;
-			}
+			var requestUrl = CheckEntityType<T>();
+			HttpResponseMessage response = await _client.GetAsync(requestUrl);
+			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<string> GetAllRequest(string extension)
+		public async Task<string> GetOneRequest<T>(Guid entityId)
 		{
-			try
-			{
-				HttpResponseMessage response = await _client.GetAsync(extension);
-
-				response.EnsureSuccessStatusCode();
-				return await response.Content.ReadAsStringAsync();
-			}
-			catch (HttpRequestException e)
-			{
-				return e.Message;
-			}
+			var requestUrl = CheckEntityType<T>();
+			HttpResponseMessage response = await _client.GetAsync(requestUrl + entityId.ToString());
+			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<string> PostRequest(string extension, Entity entity)
+		public async Task<string> PostRequest<T>(Entity entity)
 		{
-			try
-			{
-				var stringContent = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-				HttpResponseMessage response = await _client.PostAsync(extension, stringContent);
-				response.EnsureSuccessStatusCode();
-
-				return await response.Content.ReadAsStringAsync();
-			}
-			catch (HttpRequestException e)
-			{
-				return e.Message;
-			}
+			var requestUrl = CheckEntityType<T>();
+			var stringContent = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+			HttpResponseMessage response = await _client.PostAsync(requestUrl, stringContent);
+			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<string> DeleteRequest(string extension, string id)
+		public async Task<string> DeleteRequest<T>(Guid entityId)
 		{
-			try
-			{
-				HttpResponseMessage response = await _client.DeleteAsync(extension + "/" + id);
-				response.EnsureSuccessStatusCode();
+			var requestUrl = CheckEntityType<T>();
+			HttpResponseMessage response = await _client.DeleteAsync(requestUrl + entityId.ToString());
+			return await response.Content.ReadAsStringAsync();
+		}
 
-				return await response.Content.ReadAsStringAsync();
-			}
-			catch (HttpRequestException e)
-			{
-				return e.Message;
-			}
+		private Uri CheckEntityType<T>()
+		{
+	
+			if (typeof(T) == typeof(User)) return new Uri(_options.UserUrl);
+			if (typeof(T) == typeof(UserFile)) return new Uri(_options.FileUrl);
+			return null; //todo
 		}
 	}
 }

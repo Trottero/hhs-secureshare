@@ -5,7 +5,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SecureShare.Website.Services;
+using Microsoft.Extensions.Options;
+using SecureShare.WebApi.Wrapper.Models;
+using SecureShare.WebApi.Wrapper.Services;
+using SecureShare.WebApi.Wrapper.Services.Interfaces;
+using SecureShare.Website.Controllers;
+using SecureShare.Website.Extensions;
 
 namespace SecureShare.Website
 {
@@ -31,8 +36,14 @@ namespace SecureShare.Website
 
             services.AddMvc();
 
-            services.AddTransient<IHttpService,HttpService>();
-        }
+	        var apiUrls = Configuration.GetSection("ApiUrls");
+	        services.Configure<ApiUrls>(apiUrls);
+			services.AddTransient<IHttpService,HttpService>();
+	        services.AddTransient<IUserService, UserService>();
+	 
+			
+
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -57,6 +68,9 @@ namespace SecureShare.Website
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-        }
+
+
+	     
+		}
     }
 }
