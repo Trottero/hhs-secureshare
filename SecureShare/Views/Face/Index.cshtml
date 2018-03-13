@@ -1,0 +1,21 @@
+﻿@using SecureShare.Website.ViewModels
+@model FaceData
+
+<form asp-action="Authentication">
+    <div class="form-group">
+        <label asp-for="pathToDir">pathToDir</label>
+        <input asp-for="pathToDir" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="pathToUser">pathToUser</label>
+        <input asp-for="pathToUser" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="userName">Naam</label>
+        <input asp-for="userName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="text-uppercase form-control">Voeg toe</button>
+    </div>
+</form>
