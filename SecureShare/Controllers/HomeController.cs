@@ -27,10 +27,8 @@ namespace SecureShare.Website.Controllers
 
 		public async Task<IActionResult> Profile()
 		{
-			var oneUser = await _userService.GetUserByIdAsync("c5122eb9-1fb4-4a5b-8e01-0a1d99fc6619");
-			var test = JsonConvert.DeserializeObject<User>(oneUser);
-
-			return View(test);
+			var oneUser = await _userService.GetUserAsync("c5122eb9-1fb4-4a5b-8e01-0a1d99fc6619");
+			return View(oneUser);
 		}
 
 		[AllowAnonymous]

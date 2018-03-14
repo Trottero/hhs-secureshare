@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
 
@@ -8,41 +10,65 @@ namespace SecureShare.WebApi.Wrapper.Services
 {
 	public class UserService : IUserService
 	{
-		private readonly IHttpService _service;
+		private readonly IHttpService _httpService;
 
-		public UserService(IHttpService service)
+		public UserService(IHttpService httpService)
 		{
-			_service = service;
+			_httpService = httpService;
 		}
 
-		public async Task<string> GetAllUsersAsync()
-		{
-			return await _service.GetAllRequestAsync<User>();
-		}
+	    public async Task<IEnumerable<User>> GetAllUsersAsync()
+	    {
+	        var result = await _httpService.GetAllRequestAsync<User>();
+	        return JsonConvert.DeserializeObject<IEnumerable<User>>(result);
+        }
 
-		public async Task<string> GetUserByEntityAsync(User user)
-		{
-			return await _service.GetOneRequestAsync<User>(user.UserId.ToString());
-		}
+	    public Task<User> GetUserAsync(User user)
+	    {
+	        return GetUserAsync(user.UserId);
+	    }
 
-		public async Task<string> GetUserByIdAsync(string userId)
-		{
-			return await _service.GetOneRequestAsync<User>(userId);
-		}
+	    public Task<User> GetUserAsync(string userId)
+	    {
+	        //check if it is a valid guid.
+	        if (!Guid.TryParse(userId, out _))
+	            throw new ArgumentException(userId + " is an invalid argument.");
 
-		public async Task<string> AddUserAsync(User user)
-		{
-			return await _service.PostRequestAsync<User>(user);
-		}
+	        var guid = new Guid(userId);
+	        return GetUserAsync(guid);
+        }
 
-		public async Task<string> DeleteUserByEntityAsync(User user)
-		{
-			return await _service.DeleteRequestAsync<User>(user.UserId.ToString());
-		}
+	    public async Task<User> GetUserAsync(Guid userId)
+	    {
+	        var result = await _httpService.GetOneRequestAsync<User>(userId.ToString());
+	        return JsonConvert.DeserializeObject<User>(result);
+        }
 
-		public async Task<string> DeleteUserByIdAsync(string userId)
-		{
-			return await _service.DeleteRequestAsync<User>(userId);
-		}
+	    public async Task<User> AddUserAsync(User user)
+	    {
+	        var result = await _httpService.PostRequestAsync<User>(user);
+	        return JsonConvert.DeserializeObject<User>(result);
+	    }
+
+	    public Task<User> DeleteUserAsync(User user)
+	    {
+	        return DeleteUserAsync(user.UserId);
+	    }
+
+	    public Task<User> DeleteUserAsync(string userId)
+	    {
+	        //check if it is a valid guid.
+	        if (!Guid.TryParse(userId, out _))
+	            throw new ArgumentException(userId + " is an invalid argument.");
+
+	        var guid = new Guid(userId);
+	        return DeleteUserAsync(guid);
+        }
+
+	    public async Task<User> DeleteUserAsync(Guid userId)
+	    {
+	        var result = await _httpService.DeleteRequestAsync<User>(userId.ToString());
+	        return JsonConvert.DeserializeObject<User>(result);
+	    }
 	}
 }
