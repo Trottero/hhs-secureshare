@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using SecureShare.Website.Controllers;
+using SecureShare.Website.Models;
 
 namespace SecureShare
 {
@@ -34,6 +36,10 @@ namespace SecureShare
             .AddCookie();
 
             services.AddMvc();
+
+            var faceApiCoding = Configuration.GetSection("FaceApiCoding");
+            services.Configure<FaceApiCoding>(faceApiCoding);
+            services.AddTransient<FileReader, FileReader>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -8,6 +8,24 @@
 
   <ItemGroup>
     <Content Remove="Views\Home\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Webcam_Plugin\jquery.webcam.js" />
+    <None Remove="Webcam_Plugin\jscam.swf" />
+    <None Remove="Webcam_Plugin\jscam_canvas_only.swf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Webcam_Plugin\jquery.webcam.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Webcam_Plugin\jscam.swf">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Webcam_Plugin\jscam_canvas_only.swf">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +47,9 @@
 
   <ItemGroup>
     <None Include="Views\Home\Index.cshtml" />
+    <None Include="wwwroot\Webcam_Plugin\jquery.webcam.js" />
+    <None Include="wwwroot\Webcam_Plugin\jscam.swf" />
+    <None Include="wwwroot\Webcam_Plugin\jscam_canvas_only.swf" />
   </ItemGroup>
 
 </Project>

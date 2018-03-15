@@ -2,20 +2,23 @@
 @model FaceData
 
 <form asp-action="Authentication">
-    <div class="form-group">
-        <label asp-for="pathToDir">pathToDir</label>
-        <input asp-for="pathToDir" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="pathToUser">pathToUser</label>
-        <input asp-for="pathToUser" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="userName">Naam</label>
-        <input asp-for="userName" class="form-control" />
-    </div>
+    Live Camera
+    <div id="webcam"></div>
+    <input asp-for="PathToCamPic" value=@ViewData["CapturedImage"] class="form-control" style="visibility: hidden;" />
 
     <div class="form-group">
-        <button type="submit" class="text-uppercase form-control">Voeg toe</button>
+        <button type="submit" class="text-uppercase form-control">Authenticate</button>
     </div>
 </form>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.jQuery("#webcam").webcam({
+            width: 320,
+            height: 240,
+            mode: "save"
+        });
+    });
+</script>  

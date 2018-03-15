@@ -7,8 +7,9 @@ namespace SecureShare.Website.ViewModels
 {
     public class FaceData
     {
-        public string pathToDir { get; set; }
-        public string pathToUser { get; set; }
-        public string userName { get; set; }
+        public string PathToDir { get; set; }
+        public string PathToUser { get; set; }
+        public string UserName { get; set; }
+        public string PathToCamPic { get; set; }
     }
 }
