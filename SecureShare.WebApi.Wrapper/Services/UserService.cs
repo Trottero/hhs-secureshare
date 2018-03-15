@@ -20,7 +20,7 @@ namespace SecureShare.WebApi.Wrapper.Services
 	    public async Task<IEnumerable<User>> GetAllUsersAsync()
 	    {
 	        var result = await _httpService.GetAllRequestAsync<User>();
-	        return JsonConvert.DeserializeObject<IEnumerable<User>>(result);
+	        return JsonConvert.DeserializeObject<IEnumerable<User>>(await result.ReadAsStringAsync());
         }
 
 	    public Task<User> GetUserAsync(User user)
@@ -41,13 +41,13 @@ namespace SecureShare.WebApi.Wrapper.Services
 	    public async Task<User> GetUserAsync(Guid userId)
 	    {
 	        var result = await _httpService.GetOneRequestAsync<User>(userId.ToString());
-	        return JsonConvert.DeserializeObject<User>(result);
+	        return JsonConvert.DeserializeObject<User>(await result.ReadAsStringAsync());
         }
 
 	    public async Task<User> AddUserAsync(User user)
 	    {
 	        var result = await _httpService.PostRequestAsync<User>(user);
-	        return JsonConvert.DeserializeObject<User>(result);
+	        return JsonConvert.DeserializeObject<User>(await result.ReadAsStringAsync());
 	    }
 
 	    public Task<User> DeleteUserAsync(User user)
@@ -68,7 +68,7 @@ namespace SecureShare.WebApi.Wrapper.Services
 	    public async Task<User> DeleteUserAsync(Guid userId)
 	    {
 	        var result = await _httpService.DeleteRequestAsync<User>(userId.ToString());
-	        return JsonConvert.DeserializeObject<User>(result);
+	        return JsonConvert.DeserializeObject<User>(await result.ReadAsStringAsync());
 	    }
 	}
 }

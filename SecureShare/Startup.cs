@@ -38,6 +38,7 @@ namespace SecureShare.Website
 			services.Configure<ApiUrls>(apiUrls);
 			services.AddTransient<IHttpService, HttpService>();
 			services.AddTransient<IUserService, UserService>();
+			services.AddTransient<IUserFileService, UserFileService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,13 +65,13 @@ namespace SecureShare.Website
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
 
-			app.UseStatusCodePages(async context =>
-			{
-				context.HttpContext.Response.ContentType = "text/plain";
-				await context.HttpContext.Response.WriteAsync(
-					"Status code page, status code: " +
-					context.HttpContext.Response.StatusCode);
-			});
+			//app.UseStatusCodePages(async context =>
+			//{
+			//	context.HttpContext.Response.ContentType = "text/plain";
+			//	await context.HttpContext.Response.WriteAsync(
+			//		"Status code page, status code: " +
+			//		context.HttpContext.Response.StatusCode);
+			//});
 		}
 	}
 }

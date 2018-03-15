@@ -3,7 +3,7 @@
 namespace SecureShare.WebApi.Wrapper.Services
 {
 
-	public class ShareFileService : IUserFileService
+	public class ShareFileService 
 	{
 	}
 }

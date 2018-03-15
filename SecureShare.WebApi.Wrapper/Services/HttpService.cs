@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,40 +21,41 @@ namespace SecureShare.WebApi.Wrapper.Services
 			_options = optionsAccessor.Value;
 		}
 
-		public async Task<string> GetAllRequestAsync<T>()
+		public async Task<HttpContent> GetAllRequestAsync<T>()
 		{
 			var requestUrl = GetEntityRequestUri<T>();
 			HttpResponseMessage response = await _client.GetAsync(requestUrl);
-			return await response.Content.ReadAsStringAsync();
+			return response.Content;
 		}
 
-		public async Task<string> GetOneRequestAsync<T>(string entityId)
+		public async Task<HttpContent> GetOneRequestAsync<T>(string entityId)
 		{
 			var requestUrl = GetEntityRequestUri<T>();
 			HttpResponseMessage response = await _client.GetAsync(requestUrl + entityId);
-			return await response.Content.ReadAsStringAsync();
+			return response.Content;
 		}
 
-		public async Task<string> PostRequestAsync<T>(Entity entity)
+		public async Task<HttpContent> PostRequestAsync<T>(Entity entity)
 		{
 			var requestUrl = GetEntityRequestUri<T>();
 			var stringContent = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
 			HttpResponseMessage response = await _client.PostAsync(requestUrl, stringContent);
-		
-			return await response.Content.ReadAsStringAsync();
+
+			return response.Content;
 		}
 
-		public async Task<string> DeleteRequestAsync<T>(string entityId)
+		public async Task<HttpContent> DeleteRequestAsync<T>(string entityId)
 		{
 			var requestUrl = GetEntityRequestUri<T>();
 			HttpResponseMessage response = await _client.DeleteAsync(requestUrl + entityId);
-			return await response.Content.ReadAsStringAsync();
+			return response.Content;
 		}
 
 		private Uri GetEntityRequestUri<T>()
 		{
 			if (typeof(T) == typeof(User)) return new Uri(_options.UserUrl);
 			if (typeof(T) == typeof(UserFile)) return new Uri(_options.FileUrl);
+			if (typeof(T) == typeof(FileStream)) return new Uri(_options.BlobFileUrl);
 			throw new NullReferenceException();
 		}
 	}
