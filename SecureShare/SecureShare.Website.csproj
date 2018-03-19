@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="Wrappers\" />
     <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\CamPics\" />
   </ItemGroup>
 
   <ItemGroup>

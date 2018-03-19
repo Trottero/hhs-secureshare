@@ -1,52 +1,49 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using SecureShare.Website.ViewModels;
-using System;
-using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.ProjectOxford.Face;
 
 namespace SecureShare.Website.Controllers
 {
     public class FaceController : Controller
     {
         private readonly FileReader _fr;
+        private readonly IHostingEnvironment _environment;
 
-        public FaceController(FileReader fr)
+        public FaceController(FileReader fr, IHostingEnvironment environment)
         {
             _fr = fr;
+            _environment = environment;
         }
 
         public IActionResult Index()
         {
-            ViewData["CapturedImage"] = @"C:\Users\Jordi\Documents\School\SE-11\ProjectExtra\Jordi5.jpg";
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Authentication(FaceData fd)
+        public async Task<IActionResult> Authentication()
         {
-            /*
-            string CapturedImage;
-            if (Request.InputStream.Length > 0)
+            string capturedImage;
+            using (var reader = new System.IO.StreamReader(HttpContext.Request.Body, System.Text.Encoding.UTF8))
             {
-                using (StreamReader reader = new StreamReader(Request.InputStream))
-                {
-                    string hexString = Server.UrlEncode(reader.ReadToEnd());
-                    string imageName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
-                    string imagePath = string.Format("~/Captures/{0}.png", imageName);
-                    System.IO.File.WriteAllBytes(Server.MapPath(imagePath), ConvertHexToBytes(hexString));
-                    CapturedImage = VirtualPathUtility.ToAbsolute(imagePath);
-                }
+                string hexString = reader.ReadToEnd();
+                string imageName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
+                capturedImage = Path.Combine(_environment.WebRootPath, $"CamPics/{imageName}.png");
+                System.IO.File.WriteAllBytes(capturedImage, ConvertHexToBytes(hexString));
             }
-            */
-
-            string PathToDir = @"C:\Users\Jordi\Documents\School\SE-11\ProjectExtra\Facegroup\Jordi";
-            string imageP = fd.PathToCamPic;
-            var result = await _fr.Authenticate(PathToDir, imageP, "Jordi");
+            //The second parameter should be removed for the user name.
+            //When you are testing the application. Please Change "Henk" to something else.
+            var result = await _fr.Authenticate(capturedImage, "Henk");
             
             ViewData["Result"] = result.PersonVerifyResult;
-            return View();
+
+            return Ok();
         }
-        
 
         private static byte[] ConvertHexToBytes(string hex)
         {
