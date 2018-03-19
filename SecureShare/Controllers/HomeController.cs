@@ -31,7 +31,7 @@ namespace SecureShare.Website.Controllers
 		{
 			await _userFileService.GetUserFileAsync(new Guid("62769c76-f62f-46fa-52bf-08d58a9bcddb"));
 			
-			var oneUser = await _userService.GetUserAsync("c5122eb9-1fb4-4a5b-8e01-0a1d99fc6619");
+			var oneUser = await _userService.GetUserAsync("181af0d2-3667-4402-a3c6-14f05a2a76ed");
 			return View(oneUser);
 		}
 

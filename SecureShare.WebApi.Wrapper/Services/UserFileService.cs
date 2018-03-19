@@ -28,7 +28,7 @@ namespace SecureShare.WebApi.Wrapper.Services
 			var result = (await _httpService.GetOneRequestAsync<UserFile>(id.ToString())).ReadAsStringAsync();
 			var user = JsonConvert.DeserializeObject<UserFile>(await result);
 			var result2 = await (await _httpService.GetOneRequestAsync<FileStream>(user.BlobId.ToString())).ReadAsStreamAsync();
-			var writestream = new FileStream(Path.GetTempPath(), FileMode.Create);
+			var writestream = new FileStream(Path.GetTempPath() + user.FileName, FileMode.Create);
 			result2.CopyTo(writestream);
 			byte[] bytes;
 			using (var memoryStream = new MemoryStream())
