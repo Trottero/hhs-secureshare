@@ -1,15 +1,12 @@
-@using System.Security.Principal
-
 @if (User.Identity.IsAuthenticated)
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li class="navbar-text">Hello @User.Identity.Name!</li>
-        <li><a asp-area="" asp-controller="Account" asp-action="SignOut">Sign out</a></li>
-    </ul>
+    
+<div class="py-2 d-none d-md-inline-block">
+    @User.Identity.Name
+    <a asp-area="" asp-controller="Account" asp-action="SignOut"> Sign out</a>
+</div>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Signin">Sign in</a></li>
-    </ul>
+    <a class="py-2 d-none d-md-inline-block"asp-area="" asp-controller="Account" asp-action="Signin">Sign in</a>
 }

@@ -27,6 +27,15 @@ namespace SecureShare.Website.Controllers
 			return View();
 		}
 
+		public IActionResult Subscriptions()
+		{
+			return View();
+		}
+
+		public IActionResult Dashboard()
+		{
+			return View();
+		}
 		public async Task<IActionResult> Profile()
 		{
 			await _userFileService.GetUserFileAsync(new Guid("62769c76-f62f-46fa-52bf-08d58a9bcddb"));
@@ -34,6 +43,7 @@ namespace SecureShare.Website.Controllers
 			var oneUser = await _userService.GetUserAsync("181af0d2-3667-4402-a3c6-14f05a2a76ed");
 			return View(oneUser);
 		}
+
 
 		[AllowAnonymous]
 		public IActionResult Error()
