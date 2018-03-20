@@ -35,10 +35,13 @@ namespace SecureShare.Website.Controllers
 			return View();
 		}
 
-		public IActionResult Dashboard()
+		public async Task<IActionResult> Dashboard()
 		{
-			return View();
-		}
+		    var id = new Guid(User.Claims
+		        .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value);
+		    var files = await _userFileService.GetFilesFromUser(id);
+		    return View(files);
+        }
 		public async Task<IActionResult> Profile()
 		{
 			await _userFileService.GetUserFileAsync(new Guid("62769c76-f62f-46fa-52bf-08d58a9bcddb"));
@@ -97,14 +100,6 @@ namespace SecureShare.Website.Controllers
 	        var readStream = fileInfo.CreateReadStream();
 	        var mimeType = fileType;
 	        return File(readStream, mimeType, fileName);
-	    }
-
-	    public async Task<IActionResult> MyFiles()
-	    {
-	        var id = new Guid(User.Claims
-	            .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value);
-            var files = await _userFileService.GetFilesFromUser(id);
-	        return View(files);
 	    }
     }
 }
