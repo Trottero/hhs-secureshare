@@ -1,12 +1,17 @@
 @if (User.Identity.IsAuthenticated)
 {
-    
-<div class="py-2 d-none d-md-inline-block">
-    <span style="color:#999">@User.Identity.Name</span>
-    <a asp-area="" asp-controller="Account" asp-action="SignOut"> sign out</a>
-</div>
+    <div class="dropdown show">
+        <a class="btn btn-light dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @User.Identity.Name
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="SignOut">sign out</a>
+        </div>
+    </div>
 }
 else
 {
-    <a class="py-2 d-none d-md-inline-block"asp-area="" asp-controller="Account" asp-action="Signin">Sign in</a>
+    <span class="navbar-text">    <a asp-area="" asp-controller="Account" asp-action="Signin">Sign in</a></span>
+
 }

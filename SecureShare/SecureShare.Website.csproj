@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\" />
-  </ItemGroup>
-
-  <ItemGroup>
     
     <None Include="wwwroot\css\dashboard.css" />
     <None Include="wwwroot\css\subscriptions.css" />
@@ -30,6 +26,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SecureShare.WebApi.Wrapper\SecureShare.WebApi.Wrapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>
