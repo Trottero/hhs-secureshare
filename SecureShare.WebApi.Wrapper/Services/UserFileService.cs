@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -120,6 +122,12 @@ namespace SecureShare.WebApi.Wrapper.Services
 
             var guid = new Guid(id);
             return DeleteUserFileAsync(guid);
+        }
+
+        public async Task<IEnumerable<UserFile>> GetFilesFromUser(Guid id)
+        {
+            var result = await _httpService.GetOneRequestAsync<UserFile>(id.ToString(), "user/");
+            return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
         }
     }
 }

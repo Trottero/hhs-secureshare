@@ -88,5 +88,13 @@ namespace SecureShare.Website.Controllers
 	        var mimeType = fileType;
 	        return File(readStream, mimeType, fileName);
 	    }
+
+	    public async Task<IActionResult> MyFiles()
+	    {
+	        var id = new Guid(User.Claims
+	            .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value);
+            var files = await _userFileService.GetFilesFromUser(id);
+	        return View(files);
+	    }
     }
 }

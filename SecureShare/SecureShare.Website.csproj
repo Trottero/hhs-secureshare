@@ -10,6 +10,7 @@
   <ItemGroup>
     <Content Remove="Views\Home\DisplayMyClaims.cshtml" />
     <Content Remove="Views\Home\Index.cshtml" />
+    <Content Remove="Views\Home\MyFiles.cshtml" />
     <Content Remove="Views\Home\Upload.cshtml" />
     <Content Remove="Views\Home\UploadAFile.cshtml" />
   </ItemGroup>
@@ -30,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Home\MyFiles.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Include="Views\Home\Upload.cshtml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

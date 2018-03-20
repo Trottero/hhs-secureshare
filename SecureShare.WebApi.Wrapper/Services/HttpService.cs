@@ -74,7 +74,14 @@ namespace SecureShare.WebApi.Wrapper.Services
 			return response.Content;
 		}
 
-		private Uri GetEntityRequestUri<T>()
+	    public async Task<HttpContent> GetOneRequestAsync<T>(string entityId, string extension)
+	    {
+	        var requestUrl = GetEntityRequestUri<T>();
+	        HttpResponseMessage response = await _client.GetAsync(requestUrl+ extension + entityId);
+	        return response.Content;
+        }
+
+	    private Uri GetEntityRequestUri<T>()
 		{
 			if (typeof(T) == typeof(User)) return new Uri(_options.UserUrl);
 			if (typeof(T) == typeof(UserFile)) return new Uri(_options.FileUrl);

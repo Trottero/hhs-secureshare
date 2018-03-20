@@ -17,5 +17,8 @@ namespace SecureShare.WebApi.Wrapper.Services.Interfaces
 		Task<UserFile> GetUserFileAsync(string id);
 		Task<UserFile> GetUserFileAsync(UserFile file);
         Task<FileDownloadInfo> GetUserFileDownloadPath(UserFile file);
+
+	    Task<IEnumerable<UserFile>> GetFilesFromUser(Guid id);
+
 	}
 }

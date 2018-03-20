@@ -13,5 +13,6 @@ namespace SecureShare.WebApi.Wrapper.Services.Interfaces
 
         Task<HttpContent> PostRequestAsync<T>(Entity entity);
 		Task<HttpContent> DeleteRequestAsync<T>(string entityId);
-	}
+	    Task<HttpContent> GetOneRequestAsync<T>(string entityId, string extension);
+    }
 }
