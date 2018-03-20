@@ -11,7 +11,7 @@ namespace SecureShare.Website.Controllers
 		[HttpGet]
 		public IActionResult SignIn()
 		{
-			var redirectUrl = Url.Action("Dashboard", "PrivateUser");
+			var redirectUrl = Url.Action("CheckIfUserHasRegistered", "PrivateUser");
 			return Challenge(
 				new AuthenticationProperties {RedirectUri = redirectUrl},
 				OpenIdConnectDefaults.AuthenticationScheme);

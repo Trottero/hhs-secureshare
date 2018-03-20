@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
 
 namespace SecureShare.Website.Controllers
@@ -15,9 +16,11 @@ namespace SecureShare.Website.Controllers
     public class PrivateUserController : Controller
     {
         private readonly IUserFileService _userFileService;
-        public PrivateUserController(IUserFileService userFileService)
+        private readonly IUserService _userService;
+        public PrivateUserController(IUserFileService userFileService, IUserService userService)
         {
             _userFileService = userFileService;
+            _userService = userService;
         }
 
         [HttpGet("dashboard")]
@@ -57,6 +60,26 @@ namespace SecureShare.Website.Controllers
             var readStream = fileInfo.CreateReadStream();
             var mimeType = fileType;
             return File(readStream, mimeType, fileName);
+        }
+
+        //This method should be called upon logging in. This checks if the user who is about to log in has registered if not, an account will be created for him.
+        public async Task<IActionResult> CheckIfUserHasRegistered()
+        {
+            var user = await _userService.GetUserAsync(User.Claims
+                .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value);
+
+            //If the user doesn't exist, add him to the database!
+            if (user == null)
+            {
+                await _userService.AddUserAsync(new User()
+                {
+                    DisplayName = User.Claims
+                      .Single(e => e.Type.Equals("name")).Value,
+                    UserId = new Guid(User.Claims
+                      .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value)
+                });
+            }
+            return RedirectToAction("Dashboard", "PrivateUser");
         }
     }
 }
