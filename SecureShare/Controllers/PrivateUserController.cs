@@ -45,6 +45,7 @@ namespace SecureShare.Website.Controllers
             return RedirectToAction("Dashboard");
         }
 
+        [HttpGet("download")]
         public async Task<IActionResult> DownloadFile(Guid id)
         {
             var userFile = await _userFileService.GetUserFileAsync(id);
@@ -62,6 +63,7 @@ namespace SecureShare.Website.Controllers
             return File(readStream, mimeType, fileName);
         }
 
+        [HttpGet("loggedin")]
         //This method should be called upon logging in. This checks if the user who is about to log in has registered if not, an account will be created for him.
         public async Task<IActionResult> CheckIfUserHasRegistered()
         {
