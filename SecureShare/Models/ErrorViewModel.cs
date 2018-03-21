@@ -1,6 +1,4 @@
-using System;
-
-namespace SecureShare.Models
+namespace SecureShare.Website.ViewModels
 {
     public class ErrorViewModel
     {
