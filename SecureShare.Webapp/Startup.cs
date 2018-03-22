@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SecureShare.Webapp.Data;
 using SecureShare.Webapp.Services;
+using SecureShare.WebApi.Wrapper.Models;
+using SecureShare.WebApi.Wrapper.Services;
+using SecureShare.WebApi.Wrapper.Services.Interfaces;
 
 namespace SecureShare.Webapp
 {
@@ -50,6 +53,11 @@ namespace SecureShare.Webapp
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
+            var apiUrls = Configuration.GetSection("ApiUrls");
+            services.Configure<ApiUrls>(apiUrls);
+            services.AddTransient<IHttpService, HttpService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserFileService, UserFileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,7 +78,12 @@ namespace SecureShare.Webapp
 
             app.UseAuthentication();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

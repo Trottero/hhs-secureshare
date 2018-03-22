@@ -22,13 +22,11 @@ namespace SecureShare.Webapp.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToPage("/Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
