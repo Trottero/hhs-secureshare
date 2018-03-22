@@ -1,1 +1,31 @@
-﻿
+﻿.navbar {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.navbar-custom {
+    background-color: #123274;
+}
+.navbar-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+.navbar-brand:hover{
+    color:white;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: White;
+    font-weight: 600;
+    font-size: 18px;
+   
+}
+.navbar-custom .navbar-nav .nav-link:hover{
+ color: #027b93;
+}
+
+

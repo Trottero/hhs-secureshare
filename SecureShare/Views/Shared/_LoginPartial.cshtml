@@ -1,9 +1,15 @@
 @if (User.Identity.IsAuthenticated)
 {
-    <span class="navbar-text">
-        @User.Identity.Name
-        <a asp-area="" asp-controller="Account" asp-action="SignOut">sign out</a>
-    </span>
+    if (@User.Identity.Name.Contains("live.com#"))
+    {
+<span class="navbar-text">
+    
+    @User.Identity.Name.Substring(9)
+    
+
+    <a asp-area="" asp-controller="Account" asp-action="SignOut">sign out</a>
+</span>
+    }
 }
 else
 {
