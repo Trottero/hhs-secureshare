@@ -1,27 +1,91 @@
-﻿<div id="webcam"></div>
-<br />
-<input type="button" value="Capture" onclick="Capture();" />
-<br />
-<div id="result" style="visibility: hidden">
+﻿
+<div id="result">
     @ViewData["Result"]
 </div>
 
+<div id="container">
+    <div style="visibility: hidden">
+        <select id="videoSource"></select>
+    </div>
 
-@section Scripts
-{
-<script>
-     jQuery("#webcam").webcam({
-         width: 320,
-         height: 240,
-         mode: "save",
-         swffile: "/jQuery-webcam-1.0.0/jscam.swf",
-         // canvas only doesn't implement a jpeg encoder, so the file is much smaller
-         
-         onCapture: function() {
-             webcam.save('/Face/Authentication');
-         }
-    });
-     function Capture() {
-         webcam.capture();
-     }
- </script>}
+    <div style="text-align:center;">
+        <video id="screenshot-video" muted="" autoplay=""></video>
+        <img id="screenshot-img">
+        <input type="button" id="btnSave" value="Save Drawing" onclick="Capture();" />
+        <canvas id="cancas"style="display:none;"></canvas>
+    </div>
+    
+    <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript">
+        function Capture() {
+            var canvas = document.getElementById('cancas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            var data = canvas.toDataURL('image/png');
+            data = data.replace('data:image/png;base64,', '');
+
+            $.ajax({
+                type: 'POST',
+                url: "Face/AuthenticationHtml5",
+                data: '{Source:\''+ data+ '\'}',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (msg) {
+                    alert('Image saved successfully !');
+                }
+            });
+        }
+    </script>
+
+    <script>
+        var videoElement = document.querySelector('video');
+        var videoSelect = document.querySelector('#videoSource');
+        var img = document.querySelector('#screenshot-img');
+        var video = document.querySelector('#screenshot-video');
+
+        navigator.mediaDevices.enumerateDevices()
+            .then(gotDevices).then(getStream).catch(handleError);
+
+        videoSelect.onchange = getStream;
+
+        function gotDevices(deviceInfos) {
+            for (var i = 0; i !== deviceInfos.length; ++i) {
+                var deviceInfo = deviceInfos[i];
+                var option = document.createElement('option');
+                option.value = deviceInfo.deviceId;
+                if (deviceInfo.kind === 'videoinput') {
+                    option.text = deviceInfo.label || 'camera ' +
+                        (videoSelect.length + 1);
+                    videoSelect.appendChild(option);
+                }
+            }
+        }
+
+        function getStream() {
+            if (window.stream) {
+                window.stream.getTracks().forEach(function (track) {
+                    track.stop();
+                });
+            }
+
+            var constraints = {
+                video: {
+                    deviceId: { exact: videoSelect.value }
+                }
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints).
+                then(gotStream).catch(handleError);
+        }
+
+        function gotStream(stream) {
+            window.stream = stream; // make stream available to console
+            videoElement.srcObject = stream;
+        }
+
+        function handleError(error) {
+            console.error('Error: ', error);
+        }
+    </script>
+</div>

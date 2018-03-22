@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Wrappers\**" />
+    <Compile Remove="wwwroot\jQuery-webcam\**" />
+    <Content Remove="Wrappers\**" />
+    <Content Remove="wwwroot\jQuery-webcam\**" />
+    <EmbeddedResource Remove="Wrappers\**" />
+    <EmbeddedResource Remove="wwwroot\jQuery-webcam\**" />
+    <None Remove="Wrappers\**" />
+    <None Remove="wwwroot\jQuery-webcam\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Home\Index.cshtml" />
   </ItemGroup>
 
@@ -22,21 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Wrappers\" />
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\CamPics\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Views\Home\Index.cshtml" />
-    <None Include="wwwroot\jQuery-webcam-1.0.0\jquery.webcam.js" />
-    <None Include="wwwroot\jQuery-webcam-1.0.0\jscam.swf" />
-    <None Include="wwwroot\jQuery-webcam-1.0.0\jscam_canvas_only.swf" />
-    <None Include="wwwroot\jQuery-webcam-1.0.0\Makefile" />
-    <None Include="wwwroot\jQuery-webcam-1.0.0\src\BitString.as" />
-    <None Include="wwwroot\jQuery-webcam-1.0.0\src\JPGEncoder.as" />
-    <None Include="wwwroot\jQuery-webcam-1.0.0\src\jscam.as" />
-    <None Include="wwwroot\jQuery-webcam-1.0.0\src\jscam.xml" />
   </ItemGroup>
 
 </Project>

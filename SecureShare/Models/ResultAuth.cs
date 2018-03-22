@@ -21,6 +21,4 @@ namespace SecureShare.Website.Models
             }
         }
     }
-
-    
 }

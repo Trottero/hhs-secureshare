@@ -6,6 +6,7 @@ using SecureShare.Website.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.ProjectOxford.Face;
+using SecureShare.Website.Models;
 
 namespace SecureShare.Website.Controllers
 {
@@ -22,6 +23,7 @@ namespace SecureShare.Website.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Result"] = " ";
             return View();
         }
 
@@ -43,6 +45,35 @@ namespace SecureShare.Website.Controllers
             ViewData["Result"] = result.PersonVerifyResult;
 
             return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult AuthenticationHtml5(string Source)
+        {
+            //The new way for the webcam with HTML5:
+            //https://www.html5rocks.com/en/tutorials/getusermedia/intro/
+            string imageName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
+            string capturedImage = Path.Combine(_environment.WebRootPath, $"CamPics/{imageName}.png");
+
+
+            Source = Source.Substring(Source.IndexOf(",") + 1);
+            byte[] data = Convert.FromBase64String(Source);
+
+            System.IO.File.WriteAllBytes(capturedImage, data);
+
+            //The second parameter should be removed for the user name.
+            //When you are testing the application. Please Change "Henk" to something else.
+
+            Task task = _fr.Authenticate(capturedImage, "Henk");
+            while (true)
+            {
+                if (task.IsCompleted)
+                {
+                    ViewData["Result"] = _fr.ra.PersonVerifyResult;
+                    return View();
+                }
+                Task.Delay(1000);
+            }
         }
 
         private static byte[] ConvertHexToBytes(string hex)
