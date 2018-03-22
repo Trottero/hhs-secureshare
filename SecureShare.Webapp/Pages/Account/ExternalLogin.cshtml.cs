@@ -94,7 +94,8 @@ namespace SecureShare.Webapp.Pages.Account
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email)
                     };
                 }
-                return Page();
+                //return Page();
+                return LocalRedirect(Url.GetLocalUrl(returnUrl));
             }
         }
 
