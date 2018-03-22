@@ -53,7 +53,8 @@ namespace SecureShare.Webapp.Pages.Account
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Page("./ExternalLogin/Callback",  new { returnUrl });
+            //var redirectUrl = Url.Page("./ExternalLogin/Callback",  new { returnUrl });
+            var redirectUrl = "/Account/ExternalLogin/Callback";
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
