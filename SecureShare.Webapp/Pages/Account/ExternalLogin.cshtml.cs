@@ -64,11 +64,13 @@ namespace SecureShare.Webapp.Pages.Account
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
+                //TODO: Redirect to an error page where it tells you that there was an issue with the microsoft login and that to keep retrying #136
                 return RedirectToPage("./Login");
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
+                //TODO: Redirect to an error page where it tells you that there was an issue with the login and that to keep retrying #137
                 return RedirectToPage("./Login");
             }
 
@@ -77,7 +79,7 @@ namespace SecureShare.Webapp.Pages.Account
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
-                return LocalRedirect(Url.GetLocalUrl(returnUrl));
+                return RedirectToAction("CheckIfUserHasRegistered", "PrivateUser");
             }
             if (result.IsLockedOut)
             {
@@ -118,7 +120,7 @@ namespace SecureShare.Webapp.Pages.Account
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                        return LocalRedirect(Url.GetLocalUrl(returnUrl));
+                        return RedirectToAction("CheckIfUserHasRegistered", "PrivateUser");
                     }
                 }
                 foreach (var error in result.Errors)

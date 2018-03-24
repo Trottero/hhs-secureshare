@@ -77,7 +77,7 @@ namespace SecureShare.Website.Controllers
                 await _userService.AddUserAsync(new User()
                 {
                     DisplayName = User.Claims
-                      .Single(e => e.Type.Equals("name")).Value,
+                      .Single(e => e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")).Value,
                     UserId = new Guid(User.Claims
                       .Single(e => e.Type.Equals(_nameIdentifierSchemaLocation)).Value)
                 });
