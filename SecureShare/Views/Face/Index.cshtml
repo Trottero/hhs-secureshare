@@ -22,13 +22,12 @@
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0);
-            var data = canvas.toDataURL('image/png');
-            data = data.replace('data:image/png;base64,', '');
+            var data = canvas.toDataURL('image/jpg');
 
             $.ajax({
                 type: 'POST',
                 url: "Face/AuthenticationHtml5",
-                data: '{Source:\''+ data+ '\'}',
+                data: data,
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function (msg) {
