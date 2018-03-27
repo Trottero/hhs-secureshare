@@ -1,16 +1,13 @@
 ﻿<link rel="stylesheet" href="~/css/navbar.css"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" asp-controller="Home" asp-action="Index">SecureShare</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item ">
-                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            </li>
             @if (User.Identity.IsAuthenticated)
             {
                 <li class="nav-item">
