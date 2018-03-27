@@ -6,12 +6,22 @@
     <div class="col-md-5 p-lg-5 mx-auto my-5">
         <h1 class="display-5 font-weight-normal">Upload your files in the cloud</h1>
         <p class="lead font-weight-normal">Access your files and share them with anyone.</p>
-        <a class="btn btn-light" href="#">
-            <div>
+
+
+        <form asp-page="/Account/ExternalLogin" asp-route-returnUrl="/Home/Index" asp-route-provider="Microsoft" method="post">
+            <button id="submit-button" type="submit"name="provider" value="Microsoft" title="Log in using your Microsoft account" style="display:none">Microsoft</button>
+            <span id="submit-span" onclick="clickButton()" class="btn btn-light">
                 <i class="fab fa-microsoft"></i>
-                Get started          
-            </div>
-        </a>
+                Get started
+            </span>
+        </form>
+        <script>
+            function clickButton() {
+                document.getElementById('submit-button').click();
+            }
+        </script>
+
+
     </div>
 </div>
 

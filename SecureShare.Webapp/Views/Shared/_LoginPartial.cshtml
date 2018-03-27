@@ -11,7 +11,7 @@ else
         <a asp-page="/Account/ExternalLogin" asp-route-returnUrl="/Home/Index" asp-route-provider="Microsoft" method="post">Sign in</a>
     </span>*@
     <form asp-page="/Account/ExternalLogin" asp-route-returnUrl="/Home/Index" asp-route-provider="Microsoft" method="post">
-        <button id="submit-button" type="submit" class="btn btn-default" name="provider" value="Microsoft" title="Log in using your Microsoft account" style="visibility: hidden">Microsoft</button>
+        <button id="submit-button" type="submit" name="provider" value="Microsoft" title="Log in using your Microsoft account" style="display: none">Microsoft</button>
         <span id="submit-span" onclick="clickButton()" class="navbar-text">Sign in</span>
     </form>
     <script>
