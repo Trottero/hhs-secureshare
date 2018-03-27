@@ -18,21 +18,27 @@
     <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
     <script type="text/javascript">
         function Capture() {
+            document.getElementById('btnSave').disabled = true; 
+
             var canvas = document.getElementById('cancas');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0);
-            var data = canvas.toDataURL('image/jpg');
+            var dataStramInput = canvas.toDataURL('image/jpg');
+
+            var today = new Date();
+            var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+            var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();
+            var currentTime = date + ' ' + time;
 
             $.ajax({
                 type: 'POST',
-                url: "Face/AuthenticationHtml5",
-                data: data,
+                url: "Face/Capture?time=" + currentTime,
+                data: dataStramInput,
                 contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function (msg) {
-                    alert('Image saved successfully !');
-                }
+                dataType: 'text'
+            }).done(function (capturedImagePath) {
+                window.location.href = '/Face/Result?capturedImage=' + capturedImagePath;
             });
         }
     </script>

@@ -11,31 +11,31 @@ namespace SecureShare.Website.Controllers
     public class FileReader
     {
         private readonly FaceApiCoding _options;
+        private readonly FaceServiceClient _faceServiceClient;
         public FileReader(IOptions<FaceApiCoding> optionsAccessor)
         {
             _options = optionsAccessor.Value;
+            _faceServiceClient = new FaceServiceClient(_options.SubscriptionKey, _options.UriBase);
         }
 
         public async Task<ResultAuth> Authenticate(string pathToUser, string userName)
         {
-            var faceServiceClient = new FaceServiceClient(_options.SubscriptionKey, _options.UriBase);
-
             Stream s = File.OpenRead(pathToUser);
             //If there is no face on the image an error wil appear.
             //If there are more faces on one image throw an error.
-            var faces = await faceServiceClient.DetectAsync(s);
+            var faces = await _faceServiceClient.DetectAsync(s);
             s.Dispose();
             s.Close();
 
             if (faces.Count() == 0)
-                throw new Exception("No face on the image");
+                throw new Exception("1");
             if (faces.Count() > 1)
-                throw new Exception("Too many faces on the image");
+                throw new Exception("2");
             var faceIds = faces.Select(face => face.FaceId).ToArray().First();
 
             Guid pId;
             bool found = false;
-            var personList = await faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
+            var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
                 
             foreach (var p in personList){ //Search for the user in the PersonGroup
                 if (p.Name == userName)
@@ -48,17 +48,14 @@ namespace SecureShare.Website.Controllers
 
             if (!found)
             {
-                Stream s2 = File.OpenRead(pathToUser);
-                var person = await faceServiceClient.CreatePersonAsync(_options.PersonGroupId, userName);
+                var person = await _faceServiceClient.CreatePersonAsync(_options.PersonGroupId, userName);
                 pId = person.PersonId;
-                await faceServiceClient.AddPersonFaceAsync(_options.PersonGroupId, pId, s2);
-                await faceServiceClient.TrainPersonGroupAsync(_options.PersonGroupId);
-                s2.Dispose();
-                s2.Close();
+                await AddPersonFaceAsync(pathToUser, pId);
+
                 return new ResultAuth(1);
             }
 
-            var res = await faceServiceClient.VerifyAsync(
+            var res = await _faceServiceClient.VerifyAsync(
                 Guid.Parse(faceIds.ToString()),             //The image that will be compared with the facegroup images.
                 Guid.Parse(pId.ToString()),                 //ID of the person.
                 personGroupId: _options.PersonGroupId);     //GroupId where the person is in.
@@ -67,13 +64,50 @@ namespace SecureShare.Website.Controllers
 
             if (res.Confidence > 0.5)
             {
-                Stream s2 = File.OpenRead(pathToUser);
-                await faceServiceClient.AddPersonFaceAsync(_options.PersonGroupId, pId, s2);
-                await faceServiceClient.TrainPersonGroupAsync(_options.PersonGroupId);
+                await AddPersonFaceAsync(pathToUser, pId);
+                await Task.Delay(500);
+                await _faceServiceClient.TrainPersonGroupAsync(_options.PersonGroupId);
+                await ImageControle(userName);
+            }
+
+            return new ResultAuth(res.Confidence);
+        }
+
+        private async Task AddPersonFaceAsync(string path, Guid pId)
+        {
+            Stream s2 = File.OpenRead(path);
+            try
+            {
+                await _faceServiceClient.AddPersonFaceAsync(_options.PersonGroupId, pId, s2);
+                await _faceServiceClient.TrainPersonGroupAsync(_options.PersonGroupId);
                 s2.Dispose();
                 s2.Close();
             }
-            return new ResultAuth(res.Confidence);
+            catch (Exception)
+            {
+                throw new Exception("3");
+            }
+        }
+
+        private async Task ImageControle(string userName)
+        {
+            var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
+            foreach (var p in personList)
+            { //Search for the user in the PersonGroup
+                if (p.Name == userName)
+                {
+                    if (p.PersistedFaceIds.Length > 5)
+                    {
+                        var first = p.PersistedFaceIds[0];
+                        await _faceServiceClient.DeletePersonFaceAsync(
+                            _options.PersonGroupId,
+                            p.PersonId,
+                            first);
+                    }
+                    await _faceServiceClient.TrainPersonGroupAsync(_options.PersonGroupId);
+                    return;
+                }
+            }
         }
     }
 }

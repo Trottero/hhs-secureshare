@@ -23,64 +23,52 @@ namespace SecureShare.Website.Controllers
 
         public IActionResult Index()
         {
-            ViewData["Result"] = " ";
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Authentication()
+        public string Capture(string time)
         {
-            string capturedImage;
+            string capturedImage = Path.Combine(_environment.WebRootPath, $"{time}.jpg");
+
             using (var reader = new System.IO.StreamReader(HttpContext.Request.Body, System.Text.Encoding.UTF8))
             {
                 string hexString = reader.ReadToEnd();
-                string imageName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
-                capturedImage = Path.Combine(_environment.WebRootPath, $"CamPics/{imageName}.png");
-                System.IO.File.WriteAllBytes(capturedImage, ConvertHexToBytes(hexString));
-            }
-            //The second parameter should be removed for the user name.
-            //When you are testing the application. Please Change "Henk" to something else.
-            var result = await _fr.Authenticate(capturedImage, "Henk");
-            
-            ViewData["Result"] = result.PersonVerifyResult;
-
-            return Ok();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AuthenticationHtml5()
-        {
-            //The new way for the webcam with HTML5:
-            //https://www.html5rocks.com/en/tutorials/getusermedia/intro/
-            string imageName = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
-            string capturedImage = Path.Combine(_environment.WebRootPath, $"CamPics/{imageName}.jpg");
-            
-            using (var reader = new System.IO.StreamReader(HttpContext.Request.Body, System.Text.Encoding.UTF8))
-            {
-                string hexString = reader.ReadToEnd();
-                hexString = hexString.Substring(hexString.IndexOf(',')+1);
+                hexString = hexString.Substring(hexString.IndexOf(',') + 1);
                 byte[] data = Convert.FromBase64String(hexString);
 
                 System.IO.File.WriteAllBytes(capturedImage, data);
             }
 
+            return capturedImage;
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Result(string capturedImage)
+        {
             //The second parameter should be removed for the user name.
             //When you are testing the application. Please Change "Henk" to something else.
-
-            var result = await _fr.Authenticate(capturedImage, "Henk");
-            System.IO.File.Delete(capturedImage);
-            ViewData["Result"] = result.PersonVerifyResult;
-            return View();
-        }
-
-        private static byte[] ConvertHexToBytes(string hex)
-        {
-            byte[] bytes = new byte[hex.Length / 2];
-            for (int i = 0; i < hex.Length; i += 2)
+            try
             {
-                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+                var resultAuth = await _fr.Authenticate(capturedImage, "Henk");
+                System.IO.File.Delete(capturedImage);
+                ViewData["error"] = " ";
+                return View(resultAuth);
             }
-            return bytes;
+            catch (Exception codeException)
+            {
+                System.IO.File.Delete(capturedImage);
+                if (codeException.Message.Equals("1")){
+                    ViewData["error"] = "There are no recognizable on the image.";
+                } else if (codeException.Message.Equals("2")){
+                    ViewData["error"] = "There are too many recognizable on the image.";
+                } else if (codeException.Message.Equals("3")){
+                    ViewData["error"] = "Something went wrong with getting the image again.";
+                }else if(codeException.Message.StartsWith("Could not find file")){
+                    ViewData["error"] = "The image is already deleted.";
+                }
+                return View(new ResultAuth(0));
+            }
         }
     }
 }
