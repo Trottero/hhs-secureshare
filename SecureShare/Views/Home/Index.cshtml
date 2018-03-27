@@ -1,5 +1,6 @@
 ﻿<link rel="stylesheet" href="~/css/home.css"/>
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
 
 <div class="overflow-hidden p-3 p-md-5  text-center" style="background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(/images/pexels-photo.jpeg); background-size: 100% 100% ; background-repeat:no-repeat;">
@@ -8,18 +9,21 @@
         <img class="logo img-responsive" src="~/images/SecureShareLogo2.png" />
         <h1 class="Subtitle mb-3 display-5 font-weight-normal">Safest way to save and share your files</h1>
 
-        <a class="btn btn-lg btn-primary " onclick="location.href='@Url.Action("Login", "Acount")'">
+        <a class="btn btn-lg btn-primary mb-3 " onclick="location.href='@Url.Action("Login", "Acount")'">
             Get started
+            <!-- down arrow button-->
         </a>
-        
-
+        <a href="#marketing">
+            <i class="arrow arrow-1 material-icons " style="font-size:4em; position:center; " Expand_more></i>
+            <i class="arrow arrow-2 material-icons " style="font-size:4em; position:center; " Expand_more></i>
+        </a>
     </div>
 </div>
 
 <!-- Marketing messaging and featurettes
 ================================================== -->
 <!-- Wrap the rest of the page in another container to center all the content. -->
-<div class="container marketing">
+<div class="container marketing" id="marketing">
     <!-- Three columns of text below the carousel -->
     <!-- START THE FEATURETTES -->
     <hr class="featurette-divider">
@@ -68,7 +72,7 @@
             <img class="featurette-image img-fluid mx-auto" src="~/images/network-2402637_640.jpg" alt="Generic placeholder image">
         </div>
     </div>
-    <hr class="featurette-divider">
+    <hr class="featurette-divider ">
     <div class="row featurette">
         <div class="col-md-7 order-md-2">
             <h2 class="featurette-heading" style="color:#123274">Login with any Microsoft account.
