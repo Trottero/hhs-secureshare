@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Authentication
+﻿namespace SecureShare.Website.Extensions
 {
     public class AzureAdOptions
     {
