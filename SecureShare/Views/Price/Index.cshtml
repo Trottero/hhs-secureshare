@@ -2,7 +2,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 <link rel="stylesheet" href="~/css/subscriptions.css" />
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 
 
@@ -41,7 +44,7 @@
                     <li>Help center access</li>
                 </ul>
 
-                <button id="myPopover" class="btn btn-lg btn-block btn-secondary" data-trigger="focus" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Get started</button>
+                <button id="myPopover" class="btn btn-lg btn-block btn-secondary" style="background-color: #123274; popover-color:" data-toggle="popover" title="Information" data-placement="bottom" data-content="We are sorry to inform you that this option is currently not available">Get started</button>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
@@ -56,7 +59,7 @@
                     <li>email support</li>
                     <li>Help center access</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-secondary" data-trigger="focus" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Get started</button>
+                <button id="myPopover" class="btn btn-lg btn-block btn-secondary" style="background-color: #123274" data-toggle="popover" title="Information" data-placement="bottom" data-content="We are sorry to inform you that this option is currently not available">Get started</button>
             </div>
         </div>
     </div>
@@ -64,13 +67,14 @@
     <br />
     <div class="row">
         <div class="col-md-12 break">
-            <button class="btn btn-link" id="accordion" data-toggle="collapse" data-target="#needmore"><h4>Need More?</h4></button>
-           
+            <button class="btn btn-link" onclick="navigateToElement()" data-toggle="collapse" href="#needmore"><h4>Need More?</h4></button>
+
             <!--<i class="material-icons" style="font-size:4em; position:center; "Expand_more></i>-->
         </div>
     </div>
     <br />
 </div>
+
 <div class="container collapse needmore" id="needmore">
     <div class="card-deck text-center">
         <div class="card mb-4 box-shadow">
@@ -85,7 +89,7 @@
                     <li>Priority phone and email support</li>
                     <li>Help center access</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-info" data-trigger="focus" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
+                <button type="button" id="myPopover" class="btn btn-lg btn-block btn-info" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
             </div>
         </div>
 
@@ -102,7 +106,7 @@
                     <li>Priority phone and email support</li>
                     <li>Help center access</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-info" data-trigger="focus" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
+                <button type="button" id="myPopover" class="btn btn-lg btn-block btn-info" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
             </div>
         </div>
 
@@ -118,7 +122,7 @@
                     <li>Priority phone and email support</li>
                     <li>Help center access</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-info" data-trigger="focus" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
+                <button type="button" id="myPopover" class="btn btn-lg btn-block btn-info" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
             </div>
         </div>
     </div>
@@ -126,16 +130,22 @@
 
 <script>
     $(document).ready(function () {
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
 
-        // Initialize popover component
-        $(function () {
-            $('#myPopover').popover()
-        });
+
+        $('[data-toggle="popover"]').popover();
+
     });
 
 </script>
+<script>
 
+    function navigateToElement() {
+
+        $('#needmore').on('shown.bs.collapse', function () {
+            this.scrollIntoView({ behavior: 'smooth' });
+        });
+        $(this).delay(2000).fadeIn();
+    }
+
+</script>
 
