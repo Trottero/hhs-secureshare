@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -8,24 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Wrappers\**" />
-    <Compile Remove="wwwroot\jQuery-webcam\**" />
-    <Content Remove="Wrappers\**" />
-    <Content Remove="wwwroot\jQuery-webcam\**" />
-    <EmbeddedResource Remove="Wrappers\**" />
-    <EmbeddedResource Remove="wwwroot\jQuery-webcam\**" />
-    <None Remove="Wrappers\**" />
-    <None Remove="wwwroot\jQuery-webcam\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\Home\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-    <PackageReference Include="Microsoft.ProjectOxford.Face" Version="1.4.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,23 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\CamPics\" />
+    
+    <None Include="wwwroot\css\dashboard.css" />
+    <None Include="wwwroot\css\subscriptions.css" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Home\Index.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\SecureShare.WebApi.Wrapper\SecureShare.WebApi.Wrapper.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Home\About.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Views\Home\Contact.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

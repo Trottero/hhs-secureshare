@@ -1,15 +1,13 @@
-@using System.Security.Principal
-
 @if (User.Identity.IsAuthenticated)
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li class="navbar-text">Hello @User.Identity.Name!</li>
-        <li><a asp-area="" asp-controller="Account" asp-action="SignOut">Sign out</a></li>
-    </ul>
+    <span class="navbar-text">
+        @User.Identity.Name
+        <a asp-area="" asp-controller="Account" asp-action="SignOut">sign out</a>
+    </span>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Signin">Sign in</a></li>
-    </ul>
+    <span class="navbar-text">
+        <a asp-area="" asp-controller="Account" asp-action="Signin">Sign in</a>
+    </span>
 }
