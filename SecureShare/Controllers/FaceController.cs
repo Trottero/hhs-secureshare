@@ -2,10 +2,7 @@
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using SecureShare.Website.ViewModels;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.ProjectOxford.Face;
 using SecureShare.Website.Models;
 
 namespace SecureShare.Website.Controllers
@@ -27,11 +24,12 @@ namespace SecureShare.Website.Controllers
         }
 
         [HttpPost]
-        public string Capture(string time)
+        public string Capture()
         {
-            string capturedImage = Path.Combine(_environment.WebRootPath, $"{time}.jpg");
+            string imageName = DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss");
+            string capturedImage = Path.Combine(_environment.WebRootPath, $"{imageName}.jpg");
 
-            using (var reader = new System.IO.StreamReader(HttpContext.Request.Body, System.Text.Encoding.UTF8))
+            using (var reader = new StreamReader(HttpContext.Request.Body, System.Text.Encoding.UTF8))
             {
                 string hexString = reader.ReadToEnd();
                 hexString = hexString.Substring(hexString.IndexOf(',') + 1);
@@ -43,7 +41,6 @@ namespace SecureShare.Website.Controllers
             return capturedImage;
         }
         
-        [HttpPost]
         public async Task<IActionResult> Result(string capturedImage)
         {
             //The second parameter should be removed for the user name.
@@ -58,6 +55,7 @@ namespace SecureShare.Website.Controllers
             catch (Exception codeException)
             {
                 System.IO.File.Delete(capturedImage);
+                ViewData["error"] = " ";
                 if (codeException.Message.Equals("1")){
                     ViewData["error"] = "There are no recognizable on the image.";
                 } else if (codeException.Message.Equals("2")){

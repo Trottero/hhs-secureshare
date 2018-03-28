@@ -18,8 +18,15 @@ namespace SecureShare.Website.Controllers
             _faceServiceClient = new FaceServiceClient(_options.SubscriptionKey, _options.UriBase);
         }
 
+        private async Task RecreateGroup()
+        {
+            await _faceServiceClient.DeletePersonGroupAsync(_options.PersonGroupId);
+            await _faceServiceClient.CreatePersonGroupAsync(_options.PersonGroupId, "SecureShare");
+        }
+
         public async Task<ResultAuth> Authenticate(string pathToUser, string userName)
         {
+            //await RecreateGroup();
             Stream s = File.OpenRead(pathToUser);
             //If there is no face on the image an error wil appear.
             //If there are more faces on one image throw an error.
@@ -67,6 +74,7 @@ namespace SecureShare.Website.Controllers
                 await AddPersonFaceAsync(pathToUser, pId);
                 await Task.Delay(500);
                 await _faceServiceClient.TrainPersonGroupAsync(_options.PersonGroupId);
+                await Task.Delay(500);
                 await ImageControle(userName);
             }
 

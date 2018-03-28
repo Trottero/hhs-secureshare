@@ -24,17 +24,12 @@
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0);
-            var dataStramInput = canvas.toDataURL('image/jpg');
-
-            var today = new Date();
-            var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
-            var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();
-            var currentTime = date + ' ' + time;
+            var dataStreamInput = canvas.toDataURL('image/jpg');
 
             $.ajax({
                 type: 'POST',
-                url: "Face/Capture?time=" + currentTime,
-                data: dataStramInput,
+                url: "Face/Capture",
+                data: dataStreamInput,
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'text'
             }).done(function (capturedImagePath) {
