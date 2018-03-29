@@ -1,0 +1,22 @@
+@if (User.Identity.IsAuthenticated)
+{
+    <span class="navbar-text">
+        <a asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
+        <a asp-area="" asp-controller="Account" asp-action="Logout">sign out</a>
+    </span>
+}
+else
+{
+    @*<span class="navbar-text">
+        <a asp-page="/Account/ExternalLogin" asp-route-returnUrl="/Home/Index" asp-route-provider="Microsoft" method="post">Sign in</a>
+    </span>*@
+    <form asp-page="/Account/ExternalLogin" asp-route-returnUrl="/Home/Index" asp-route-provider="Microsoft" method="post">
+        <button id="submit-button" type="submit" name="provider" value="Microsoft" title="Log in using your Microsoft account" style="display: none">Microsoft</button>
+        <span id="submit-span" onclick="clickButton()" class="navbar-text">Sign in</span>
+    </form>
+    <script>
+        function clickButton() {
+            document.getElementById('submit-button').click();
+        }
+    </script>
+}
