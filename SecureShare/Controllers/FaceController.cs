@@ -27,7 +27,7 @@ namespace SecureShare.Website.Controllers
         public string Capture()
         {
             string imageName = DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss");
-            string capturedImage = Path.Combine(_environment.WebRootPath, $"{imageName}.jpg");
+            string capturedImage = Path.Combine(Path.GetTempPath(), $"{imageName}.jpg");
 
             using (var reader = new StreamReader(HttpContext.Request.Body, System.Text.Encoding.UTF8))
             {
