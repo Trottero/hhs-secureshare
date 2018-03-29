@@ -63,10 +63,9 @@ namespace SecureShare.Website.Controllers
             }
 
             var res = await _faceServiceClient.VerifyAsync(
-                Guid.Parse(faceIds.ToString()),  
-                 _options.PersonGroupId, //The image that will be compared with the facegroup images.
-                Guid.Parse(pId.ToString())                 //ID of the person.
-                );     //GroupId where the person is in.
+                Guid.Parse(faceIds.ToString()),             //The image that will be compared with the facegroup images.
+                Guid.Parse(pId.ToString()),                 //ID of the person.
+                personGroupId: _options.PersonGroupId);     //GroupId where the person is in.
             // Verification result contains IsIdentical (true or false) and Confidence (in range 0.0 ~ 1.0),
             // here we update verify result on UI by PersonVerifyResult binding
 
