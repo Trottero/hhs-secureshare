@@ -1,0 +1,25 @@
+﻿
+.overlay {
+    position: absolute;
+    overflow: hidden;
+}
+
+.text {
+    visibility: hidden;
+ 
+    color: white;
+    font-size: 25px;
+    font-weight:600;
+    padding-top:80px;
+    text-align: center;
+}
+.card:hover .overlay .text {
+    
+    background: rgba(0, 0, 0, 0.7); /* Black see-through */
+    height: 200px;
+    width: 200px;
+    visibility: visible;
+    transition: .5s ease;
+    opacity: 1;
+   
+}

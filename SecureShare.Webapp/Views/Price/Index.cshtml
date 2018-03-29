@@ -1,0 +1,149 @@
+﻿
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<link rel="stylesheet" href="~/css/subscriptions.css" />
+
+
+
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">SecureShare plans</h1>
+    <p class="lead">Pick the plan that fits your needs. Personal use or for business. </p>
+</div>
+<div class="container">
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Free</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Share files with up to 10 users</li>
+                    <li>5 GB of storage</li>
+                    <li>Email support</li>
+                    <li>Help center access</li>
+                </ul>
+                <button type="button" class="btn btn-lg btn-block btn-outline-secondary disabled">Your current plan</button>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Pro</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">€1,99 <small class="text-muted">/ mo</small></h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Share files with up to 20 users</li>
+                    <li>100 GB of storage</li>
+                    <li>Priority email support</li>
+                    <li>Help center access</li>
+                </ul>
+
+                <button id="myPopover" class="btn btn-lg btn-block btn-secondary" style="background-color: #123274; " data-toggle="popover" title="Information" data-placement="bottom" data-content="We are sorry to inform you that this option is currently not available">Get started</button>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Pro</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">€9,99 <small class="text-muted">/ mo</small></h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Share files with up to 150 users</li>
+                    <li>1 TB of storage</li>
+                    <li>email support</li>
+                    <li>Help center access</li>
+                </ul>
+                <button id="myPopover" class="btn btn-lg btn-block btn-secondary" style="background-color: #123274" data-toggle="popover" title="Information" data-placement="bottom" data-content="We are sorry to inform you that this option is currently not available">Get started</button>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="row">
+        <div class="col-md-12 break">
+            <button class="btn btn-link" onclick="navigateToElement()" data-toggle="collapse" href="#needmore"><h4>Need More?</h4></button>
+
+            <!--<i class="material-icons" style="font-size:4em; position:center; "Expand_more></i>-->
+        </div>
+    </div>
+    <br />
+</div>
+
+<div class="container collapse needmore" id="needmore">
+    <div class="card-deck text-center">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Enterprise</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">$99,99 <small class="text-muted">/ mo</small></h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Share files with unlimited users</li>
+                    <li>20 TB of storage</li>
+                    <li>Priority phone and email support</li>
+                    <li>Help center access</li>
+                </ul>
+                <button type="button" id="myPopover" class="btn btn-lg btn-block btn-info" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
+            </div>
+        </div>
+
+
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Enterprise</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">$299,99 <small class="text-muted">/ mo</small></h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Share files with unlimited users</li>
+                    <li>50 TB of storage</li>
+                    <li>Priority phone and email support</li>
+                    <li>Help center access</li>
+                </ul>
+                <button type="button" id="myPopover" class="btn btn-lg btn-block btn-info" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
+            </div>
+        </div>
+
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Enterprise</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">$499,99 <small class="text-muted">/ mo</small></h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>Share files unlimited users</li>
+                    <li>100 TB of storage</li>
+                    <li>Priority phone and email support</li>
+                    <li>Help center access</li>
+                </ul>
+                <button type="button" id="myPopover" class="btn btn-lg btn-block btn-info" style="background-color: #123274" data-toggle="popover" data-placement="bottom" title="Information" data-content="We are sorry to inform you that this option is currently not available">Contact us</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{  
+<script>
+    $(document).ready(function () {
+
+
+        $('[data-toggle="popover"]').popover();
+
+    });
+
+</script>
+
+<script>
+
+    function navigateToElement() {
+
+        $('#needmore').on('shown.bs.collapse', function () {
+            this.scrollIntoView({ behavior: 'smooth' });
+        });
+        $(this).delay(2000).fadeIn();
+    }
+
+</script>
+    }
