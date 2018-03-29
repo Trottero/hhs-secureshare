@@ -11,7 +11,7 @@ using SecureShare.WebApi.Wrapper.Services.Interfaces;
 
 namespace SecureShare.Webapp.Controllers
 {
-	[Route("user")]
+	[Route("dashboard")]
 	[Authorize]
 	public class PrivateUserController : Controller
 	{
@@ -22,7 +22,6 @@ namespace SecureShare.Webapp.Controllers
 		private const string NameIdentifierSchemaLocation =
 			"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
 
-
 		public PrivateUserController(IUserFileService userFileService, IUserService userService,
 			IShareFileService shareFileService)
 		{
@@ -31,56 +30,66 @@ namespace SecureShare.Webapp.Controllers
 			_shareFileService = shareFileService;
 		}
 
-		[HttpGet("dashboard")]
-		public async Task<IActionResult> Dashboard()
+		[HttpGet("myfiles")]
+		public async Task<IActionResult> MyFiles()
 		{
-			var id = new Guid(User.Claims
-				.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value);
-			var files = await _userFileService.GetFilesFromUser(id);
-
-
+			var userId = User.Claims
+				.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value;
+			var files = await _userFileService.GetFilesFromUserAsync(userId);
 			return View(files);
 		}
 
-		[HttpGet]
+		[HttpGet("sharedwithme")]
+		public async Task<IActionResult> SharedWithUser()
+		{
+			var userId = User.Claims
+				.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value;
+			var files = await _shareFileService.GetSharedWithUserAsync(userId);
+			return View(files);
+		}
+
+		[HttpGet("sharedwithothers")]
+		public async Task<IActionResult> SharedWithOthers()
+		{
+			var userId = User.Claims
+				.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value;
+			var files = await _shareFileService.GetSharedWithUserAsync(userId);
+			return View(files);
+		}
+
+		[HttpGet("upload")]
 		public IActionResult Upload()
 		{
 			return View();
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> SharedWithMe()
+
+		[HttpPost("upload")]
+		public async Task<IActionResult> Upload(IFormFile file, string sharedWith)
 		{
-			var files = await _shareFileService.GetSharedFilesFromUser(
-				new Guid(User.Claims.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value));
-			return View(files);
-		}
+			if (Guid.TryParse(sharedWith, out _))
+			{
+				var ownerId = new Guid(User.Claims
+					.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value);
 
 
-		[HttpPost]
-		public async Task<IActionResult> Upload(IFormFile file)
-		{
-			var userfile = await _userFileService.AddUserFileAsync(file,
+				var sharedUser = await _userService.GetUserAsync(sharedWith);
+				await _shareFileService.AddSharedFile(file, ownerId, sharedUser);
+				return RedirectToAction("MyFiles");
+			}
+
+			await _userFileService.AddUserFileAsync(file,
 				new Guid(User.Claims.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value));
-			return RedirectToAction("Dashboard");
+
+			return RedirectToAction("MyFiles");
 		}
 
 		[HttpGet("download")]
 		public async Task<IActionResult> DownloadFile(Guid id)
 		{
 			var userFile = await _userFileService.GetUserFileAsync(id);
-			var downloadInfo = await _userFileService.GetUserFileDownloadPath(userFile);
+			var downloadInfo = await _userFileService.GetUserFileDownloadPathAsync(userFile);
 			return GetFileReadyToDownload(downloadInfo.RootPath, downloadInfo.FileName, downloadInfo.FileType);
-		}
-
-		[NonAction]
-		public FileResult GetFileReadyToDownload(string rootPath, string fileName, string fileType)
-		{
-			IFileProvider provider = new PhysicalFileProvider(rootPath);
-			IFileInfo fileInfo = provider.GetFileInfo(fileName);
-			var readStream = fileInfo.CreateReadStream();
-			var mimeType = fileType;
-			return File(readStream, mimeType, fileName);
 		}
 
 		[HttpGet("loggedin")]
@@ -102,7 +111,17 @@ namespace SecureShare.Webapp.Controllers
 				});
 			}
 
-			return RedirectToAction("Dashboard", "PrivateUser");
+			return RedirectToAction("MyFiles", "PrivateUser");
+		}
+
+		[NonAction]
+		private FileResult GetFileReadyToDownload(string rootPath, string fileName, string fileType)
+		{
+			var provider = new PhysicalFileProvider(rootPath);
+			var fileInfo = provider.GetFileInfo(fileName);
+			var readStream = fileInfo.CreateReadStream();
+			var mimeType = fileType;
+			return File(readStream, mimeType, fileName);
 		}
 	}
 }

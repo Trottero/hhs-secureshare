@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
@@ -10,20 +11,65 @@ namespace SecureShare.WebApi.Wrapper.Services
 	public class ShareFileService : IShareFileService
 	{
 		private readonly IHttpService _httpService;
+		private readonly IUserFileService _userFileService;
 
-		public ShareFileService(IHttpService httpService)
+		public ShareFileService(IHttpService httpService, IUserFileService userFileService)
 		{
 			_httpService = httpService;
+			_userFileService = userFileService;
 		}
 
-		public Task<IEnumerable<Users_UserFiles>> ShareFileAsync(Users_UserFiles sharefile)
+		public async Task<IEnumerable<UserFile>> GetSharedWithUserAsync(Guid id)
 		{
-			throw new NotImplementedException();
+			var result = await _httpService.GetOneRequestAsync<UserFile>(id.ToString(), "sharedwith/");
+			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
 		}
 
-		public async Task<IEnumerable<UserFile>> GetSharedFilesFromUser(Guid id)
+		public async Task<IEnumerable<UserFile>> GetSharedWithUserAsync(string id)
+		{
+			var result = await _httpService.GetOneRequestAsync<UserFile>(id, "sharedwith/");
+			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
+		}
+
+		public async Task<IEnumerable<UserFile>> GetSharedWithUserAsync(User user)
+		{
+			var userId = user.UserId.ToString();
+			var result = await _httpService.GetOneRequestAsync<UserFile>(userId, "sharedwith/");
+			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
+		}
+
+		public async Task<IEnumerable<Users_UserFiles>> AddSharedFile(IFormFile file, Guid owner,User sharingUser)
+		{
+			var userfile = await _userFileService.AddUserFileAsync(file, owner);
+			var usersUserFiles = new Users_UserFiles
+			{
+				User = sharingUser,
+				PermissionId = owner,
+				UserFile = userfile,
+				UserFileId = userfile.UserFileId,
+				UserId = sharingUser.UserId
+			};
+
+			var result = await _httpService.PostRequestAsync<Users_UserFiles>(usersUserFiles);
+			return JsonConvert.DeserializeObject<IEnumerable<Users_UserFiles>>(await result.ReadAsStringAsync());
+		}
+
+		public async Task<IEnumerable<UserFile>> GetSharedWithOthersAsync(Guid id)
 		{
 			var result = await _httpService.GetOneRequestAsync<UserFile>(id.ToString(), "user/");
+			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
+		}
+
+		public async Task<IEnumerable<UserFile>> GetSharedWithOthersAsync(string id)
+		{
+			var result = await _httpService.GetOneRequestAsync<UserFile>(id, "user/");
+			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
+		}
+
+		public async Task<IEnumerable<UserFile>> GetSharedWithOthersAsync(User user)
+		{
+			var userId = user.UserId.ToString();
+			var result = await _httpService.GetOneRequestAsync<UserFile>(userId, "user/");
 			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
 		}
 	}

@@ -49,7 +49,7 @@ namespace SecureShare.WebApi.Wrapper.Services
 			return GetUserFileAsync(file.OwnerId);
 		}
 
-		public async Task<FileDownloadInfo> GetUserFileDownloadPath(UserFile userFileMetadata)
+		public async Task<FileDownloadInfo> GetUserFileDownloadPathAsync(UserFile userFileMetadata)
 		{
 			var azureBlobStream = await (await _httpService.GetOneRequestAsync<FileStream>(userFileMetadata.BlobId.ToString()))
 				.ReadAsStreamAsync();
@@ -100,6 +100,7 @@ namespace SecureShare.WebApi.Wrapper.Services
 				FileName = file.FileName,
 				FileType = file.ContentType,
 				OwnerId = owner
+				
 			};
 			var result = await _httpService.PostRequestAsync<UserFile>(userFileToUpload);
 			return JsonConvert.DeserializeObject<UserFile>(await result.ReadAsStringAsync());
@@ -109,6 +110,7 @@ namespace SecureShare.WebApi.Wrapper.Services
 		{
 			return DeleteUserFileAsync(user.UserFileId);
 		}
+
 
 		public async Task<UserFile> DeleteUserFileAsync(Guid id)
 		{
@@ -125,9 +127,22 @@ namespace SecureShare.WebApi.Wrapper.Services
 			return DeleteUserFileAsync(guid);
 		}
 
-		public async Task<IEnumerable<UserFile>> GetFilesFromUser(Guid id)
+		public async Task<IEnumerable<UserFile>> GetFilesFromUserAsync(Guid id)
 		{
 			var result = await _httpService.GetOneRequestAsync<UserFile>(id.ToString(), "user/");
+			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
+		}
+
+		public async Task<IEnumerable<UserFile>> GetFilesFromUserAsync(string id)
+		{
+			var result = await _httpService.GetOneRequestAsync<UserFile>(id, "user/");
+			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
+		}
+
+		public async Task<IEnumerable<UserFile>> GetFilesFromUserAsync(User user)
+		{
+			var id = user.UserId.ToString();
+			var result = await _httpService.GetOneRequestAsync<UserFile>(id, "user/");
 			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
 		}
 	}
