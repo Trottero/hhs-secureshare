@@ -67,7 +67,17 @@ body {
     font-size: 50px;
 
   }
+    
 }
+@media (max-width: 23em){
+    .butarrow {
+        visibility: collapse;
+    }
+    .Subtitle{
+        font-size:34px;
+    }
+}
+
 
 
 /*---------down arrow styles*/
@@ -115,3 +125,4 @@ body {
         transform: translate(-10px, -10px);
     }
 }
+

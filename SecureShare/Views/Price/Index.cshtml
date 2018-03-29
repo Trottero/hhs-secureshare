@@ -2,10 +2,6 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 <link rel="stylesheet" href="~/css/subscriptions.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 
 
@@ -44,7 +40,7 @@
                     <li>Help center access</li>
                 </ul>
 
-                <button id="myPopover" class="btn btn-lg btn-block btn-secondary" style="background-color: #123274; popover-color:" data-toggle="popover" title="Information" data-placement="bottom" data-content="We are sorry to inform you that this option is currently not available">Get started</button>
+                <button id="myPopover" class="btn btn-lg btn-block btn-secondary" style="background-color: #123274; " data-toggle="popover" title="Information" data-placement="bottom" data-content="We are sorry to inform you that this option is currently not available">Get started</button>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
@@ -128,6 +124,7 @@
     </div>
 </div>
 
+@section Scripts{  
 <script>
     $(document).ready(function () {
 
@@ -137,6 +134,7 @@
     });
 
 </script>
+
 <script>
 
     function navigateToElement() {
@@ -148,4 +146,4 @@
     }
 
 </script>
-
+    }
