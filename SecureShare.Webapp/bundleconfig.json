@@ -1,0 +1,42 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/css/dashboard.min.css",
+    "inputFiles": [ "wwwroot/css/dashboard.css" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/index.min.css",
+    "inputFiles": [ "wwwroot/css/index.css" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [ "wwwroot/css/site.css" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/navbar.min.css",
+    "inputFiles": [ "wwwroot/css/navbar.css" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/subscriptions.min.css",
+    "inputFiles": [ "wwwroot/css/subscriptions.css" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+]
