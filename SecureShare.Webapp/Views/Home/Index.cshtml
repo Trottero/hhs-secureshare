@@ -1,0 +1,102 @@
+﻿<link rel="stylesheet" href="~/css/home.css"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+
+<div class="overflow-hidden p-3 p-md-5  text-center" style="background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(/images/pexels-photo.jpeg); background-size: 100% 100% ; background-repeat:no-repeat;">
+
+    <div class="col-md-5 p-lg-5 mx-auto my-5">
+        <img class="logo img-responsive" src="~/images/SecureShareLogo2.png" />
+        <h1 class="Subtitle mb-3 display-6 font-weight-normal">Safest way to save and share your files</h1>
+
+        <form asp-page="/Account/ExternalLogin" asp-route-returnUrl="/Home/Index" asp-route-provider="Microsoft" method="post">
+            <button id="submit-button" type="submit" name="provider" value="Microsoft" title="Log in using your Microsoft account" style="display:none">Microsoft</button>
+            <span id="submit-span" onclick="clickButton()"  class="btn btn-lg btn-primary mb-3 " style="background-color:#123274; color:white; border-color:#123274;">
+                <i class="fab fa-microsoft"></i>
+                Get started
+            </span>
+        </form>
+        <script>
+            function clickButton() {
+                document.getElementById('submit-button').click();
+            }
+        </script>
+       
+        <a class="butarrow" href="#marketing">
+            <i class="arrow arrow-1 material-icons " style="font-size:4em; position:center; " Expand_more></i>
+            <i class="arrow arrow-2 material-icons " style="font-size:4em; position:center; " Expand_more></i>
+        </a>
+    </div>
+</div>
+
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+<div class="container marketing" id="marketing">
+    <!-- Three columns of text below the carousel -->
+    <!-- START THE FEATURETTES -->
+    <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-5">
+            <img class="featurette-image img-responsive mx-auto" src="~/images/136517-file-types.png" style="width:100%; height:100%; " />
+        </div>
+        <div class="col-md-7">
+            <h2 class="featurette-heading mt-5" style="color:#123274">Save all types of files.</h2>
+            <p class="lead mt-4">SecureShare offers you 5 GB of free online storage for your photos, articles, designs, drawings, recordings, videos - everything!.</p>
+        </div>
+
+    </div>
+
+    <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-5">
+            <h2 class="featurette-heading mt-5" style="color:#123274">Access your files Anytime and anywhere.</h2>
+            <p class="lead mt-4">Your files in SecureShare can be opened with any smartphone, tablet or computer. So wherever you go, your files go with you.</p>
+        </div>
+        <div class="col-md-7">
+            <img class="featurette-image img-responsive mx-auto" src="~/images/SSAll-Devices.png" style="width:100%; height:100%; " />
+        </div>
+    </div>
+
+
+    <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading" style="color:#123274">Share your files. With friends, family and colleagues.</h2>
+            <p class="lead">You can invite others quickly and easily to view and download any desired file. No more e-mail attachments needed!</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+            <img class="featurette-image img-fluid mx-auto"
+                 src="~/images/sharewithfriends.png" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading" style="color:#123274">Secure Sharing Encryption</h2>
+            <p class="lead">All your files are securely saved in our servers.</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" src="~/images/network-2402637_640.jpg" alt="Generic placeholder image">
+        </div>
+    </div>
+    <hr class="featurette-divider ">
+    <div class="row featurette">
+        <div class="col-md-8 order-md-2">
+            <h2 class="featurette-heading" style="color:#123274">Login with any Microsoft account.
+            </h2>
+            
+            <p class="lead">Using any of your Microsoft account this can be a school, work or personal account. As a secondary authentication option u can identify yourself using our one of a kind facial recognition option.</p>
+            
+        </div>
+        <div class="col-md-4 order-md-1">
+            <img class="featurette-image img-fluid mx-auto"
+                 src="~/images/faceauth.png" alt="Generic placeholder image" >
+        </div>
+    </div>
+    <hr  class="featurette-divider"/>
+
+
+    <!-- /END THE FEATURETTES -->
+</div><!-- /.container -->

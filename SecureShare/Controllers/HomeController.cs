@@ -19,13 +19,13 @@ namespace SecureShare.Website.Controllers
 		{
 			return View();
 		}
+        public IActionResult About()
+        {
+            return View();
+        }
 
-		public IActionResult Subscriptions()
-		{
-			return View();
-		}
 
-		[AllowAnonymous]
+        [AllowAnonymous]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
