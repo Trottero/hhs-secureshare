@@ -19,8 +19,11 @@ namespace SecureShare.Website.Controllers
 		{
 			return View();
 		}
-
-		public IActionResult Subscriptions()
+        public IActionResult About()
+        {
+            return View();
+        }
+		public IActionResult Pricing()
 		{
 			return View();
 		}

@@ -7,33 +7,37 @@
         @await Html.PartialAsync("_SidebarPartial")
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-      
+
             <h2>My files</h2>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>File name</th>
-                            <th>Description</th>
-                            <th>Uploaded</th>
-                            <th>Dowload</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var file in Model)
-                    {
-                        <tr>
-                            <td>@file.UserFileId</td>
-                            <td>@file.FileName</td>
-                            <td>@file.Description</td>
-                            <td>@file.UploadDateTime</td>
-                            <td><a asp-controller="PrivateUser" asp-action="DownloadFile"  asp-route-id="@file.UserFileId">Download</a></td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
-        </main>
+             <div class=" table table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>File name</th>
+                    <th>Description</th>
+                    <th>Uploaded</th>
+                    <th>Dowload</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var file in Model)
+                {
+                    <tr>
+                        <td>@file.UserFileId</td>
+                        <td>@file.FileName</td>
+                        <td>@file.Description</td>
+                        <td>@file.UploadDateTime</td>
+                        <td><a asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId">Download</a></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
     </div>
+        </main>
+
+
+    </div>
+    
 </div>

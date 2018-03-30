@@ -1,1 +1,25 @@
 ﻿
+
+.navbar-custom {
+    background-color: #123274;
+}
+.navbar-brand {
+    color: white;
+}
+.navbar-brand:hover{
+    color:white;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: White;
+   
+}
+.nav-login {
+    color: white;
+}
+.nav-login:hover{
+    color: rgba(255,255,255,.75);
+}
+
+
+
