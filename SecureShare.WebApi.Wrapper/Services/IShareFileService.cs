@@ -15,5 +15,7 @@ namespace SecureShare.WebApi.Wrapper.Services
 		Task<IEnumerable<UserFile>> GetSharedWithUserAsync(string id);
 		Task<IEnumerable<UserFile>> GetSharedWithUserAsync(User user);
 		Task<IEnumerable<Users_UserFiles>> AddSharedFile(IFormFile file, Guid owner, User sharingUser);
+
+	    Task<Users_UserFiles> ShareFileAsync(Guid userFileId, Guid userToBeSharedWith);
 	}
 }

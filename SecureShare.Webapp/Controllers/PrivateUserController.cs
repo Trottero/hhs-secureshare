@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using SecureShare.Webapp.Models;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
@@ -65,22 +66,10 @@ namespace SecureShare.Webapp.Controllers
 
 
 		[HttpPost("upload")]
-		public async Task<IActionResult> Upload(IFormFile file, string sharedWith)
+		public async Task<IActionResult> Upload(IFormFile file)
 		{
-			if (Guid.TryParse(sharedWith, out _))
-			{
-				var ownerId = new Guid(User.Claims
-					.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value);
-
-
-				var sharedUser = await _userService.GetUserAsync(sharedWith);
-				await _shareFileService.AddSharedFile(file, ownerId, sharedUser);
-				return RedirectToAction("MyFiles");
-			}
-
 			await _userFileService.AddUserFileAsync(file,
 				new Guid(User.Claims.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value));
-
 			return RedirectToAction("MyFiles");
 		}
 
@@ -113,6 +102,30 @@ namespace SecureShare.Webapp.Controllers
 
 			return RedirectToAction("MyFiles", "PrivateUser");
 		}
+
+        [HttpGet("share/{id}")]
+	    public async Task<IActionResult> ShareFileWithUser(Guid id)
+        {
+            var userFile = await _userFileService.GetUserFileAsync(id);
+            var viewModel = new ShareFileViewModel
+            {
+                FileToShare = userFile.UserFileId,
+                Filename = userFile.FileName
+            };
+            return View(viewModel);
+        }
+
+	    [HttpPost("share/{id}")]
+        [ValidateAntiForgeryToken]
+	    public async Task<IActionResult> ShareFileWithUser([Bind("FileToShare,UserToShareWith")] ShareFileViewModel shareFileViewModel, Guid id)
+	    {
+	        if (!ModelState.IsValid)
+	        {
+	            return NotFound();
+	        }
+	        await _shareFileService.ShareFileAsync(shareFileViewModel.FileToShare, shareFileViewModel.UserToShareWith);
+	        return RedirectToAction("MyFiles");
+	    }
 
 		[NonAction]
 		private FileResult GetFileReadyToDownload(string rootPath, string fileName, string fileType)

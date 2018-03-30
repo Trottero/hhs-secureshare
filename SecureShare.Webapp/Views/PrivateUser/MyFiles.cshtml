@@ -4,7 +4,7 @@
 }
 
 
-<h2>My files</h2>
+<h2>My files @User.Claims.Single(e => e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value</h2>
 <div class="table-responsive">
     <table class="table table-striped table-sm">
         <thead>

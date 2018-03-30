@@ -54,7 +54,19 @@ namespace SecureShare.WebApi.Wrapper.Services
 			return JsonConvert.DeserializeObject<IEnumerable<Users_UserFiles>>(await result.ReadAsStringAsync());
 		}
 
-		public async Task<IEnumerable<UserFile>> GetSharedWithOthersAsync(Guid id)
+	    public async Task<Users_UserFiles> ShareFileAsync(Guid userFileId, Guid userToBeSharedWith)
+	    {
+            var userFile = new Users_UserFiles
+            {
+                UserFileId = userFileId,
+                UserId = userToBeSharedWith,
+                
+            };
+	        var result = await _httpService.PostRequestAsync<Users_UserFiles>(userFile);
+            return JsonConvert.DeserializeObject<Users_UserFiles>(await result.ReadAsStringAsync());
+        }
+
+	    public async Task<IEnumerable<UserFile>> GetSharedWithOthersAsync(Guid id)
 		{
 			var result = await _httpService.GetOneRequestAsync<UserFile>(id.ToString(), "user/");
 			return JsonConvert.DeserializeObject<IEnumerable<UserFile>>(await result.ReadAsStringAsync());
