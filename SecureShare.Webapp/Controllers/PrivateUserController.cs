@@ -66,8 +66,16 @@ namespace SecureShare.Webapp.Controllers
 
 
 		[HttpPost("upload")]
-		public async Task<IActionResult> Upload(IFormFile file)
+		public async Task<IActionResult> Upload(IFormFile file, string sharedWith)
 		{
+			if (Guid.TryParse(sharedWith, out _))
+			{
+				var ownerId = new Guid(User.Claims
+					.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value);
+				var sharedUser = await _userService.GetUserAsync(sharedWith);
+				await _shareFileService.AddSharedFile(file, ownerId, sharedUser);
+				return RedirectToAction("MyFiles");
+			}
 			await _userFileService.AddUserFileAsync(file,
 				new Guid(User.Claims.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value));
 			return RedirectToAction("MyFiles");
