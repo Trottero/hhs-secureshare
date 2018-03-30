@@ -9,7 +9,6 @@
     <table class="table table-striped table-bordered table-sm">
         <thead>
         <tr>
-            <th>#</th>
             <th>File name</th>
             <th>Uploaded</th>
             <th>shared with</th>
@@ -20,7 +19,6 @@
         @foreach (var file in Model)
         {
             <tr>
-                <td>@file.UserFileId</td>
                 <td>@file.FileName</td>
                 <td>@file.UploadDateTime</td>
                 <td>
