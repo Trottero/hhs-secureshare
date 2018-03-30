@@ -13,7 +13,7 @@
             <th>File name</th>
             <th>Uploaded</th>
             <th>shared with</th>
-            <th>Download</th>
+            <th>Menu</th>
         </tr>
         </thead>
         <tbody>
@@ -23,13 +23,33 @@
                 <td>@file.UserFileId</td>
                 <td>@file.FileName</td>
                 <td>@file.UploadDateTime</td>
+                <td>
                 @foreach (var user in @file.SharedWith)
                 {
-                    <td>@user.User.DisplayName</td>
+                    @user.User.DisplayName
                 }
-        
+                </td>
+                @*<td>
+                    <a asp-controller="PrivateUser" asp-action="ShareFileWithUser" asp-route-id="@file.UserFileId">Share</a>
+                </td>
                 <td>
                     <a asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId">Download</a>
+                </td>
+                <td>
+                    <a asp-controller="PrivateUser" asp-action="DeleteFile" asp-route-id="@file.UserFileId">Delete</a>
+                </td>*@
+                <td>
+                    <!-- Default dropleft button -->
+                    <div class="btn-group dropleft">
+                        <button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId"><i class="fas fa-download"></i> Download</a>
+                            <a class="dropdown-item" asp-controller="PrivateUser" asp-action="ShareFileWithUser" asp-route-id="@file.UserFileId"><i class="fas fa-share"></i> Share</a>
+                            <a class="dropdown-item" asp-controller="PrivateUser" asp-action="DeleteFile" asp-route-id="@file.UserFileId"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </div>
+                    </div>
                 </td>
             </tr>
         }

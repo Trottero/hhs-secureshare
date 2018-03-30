@@ -9,9 +9,9 @@
         <div class="col-md-10">
 
             Share file: @Model.Filename with another user
-            <input asp-for="Filename">
+            <br>
             <input asp-for="UserToShareWith"/>
-            <input asp-for="FileToShare">
+            <input type="hidden" asp-for="FileToShare">
         </div>
     </div>
     <div class="form-group">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -124,6 +125,13 @@ namespace SecureShare.Webapp.Controllers
 	            return NotFound();
 	        }
 	        await _shareFileService.ShareFileAsync(shareFileViewModel.FileToShare, shareFileViewModel.UserToShareWith);
+	        return RedirectToAction("MyFiles");
+	    }
+
+	    [HttpGet("delete/{id}")]
+	    public async Task<IActionResult> DeleteFile(Guid id)
+	    {
+	        await _userFileService.DeleteUserFileAsync(id);
 	        return RedirectToAction("MyFiles");
 	    }
 
