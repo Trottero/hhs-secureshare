@@ -44,7 +44,7 @@ namespace SecureShare.Website.Controllers
         public async Task<IActionResult> Result(string capturedImage)
         {
             //The second parameter should be removed for the user name.
-            //When you are testing the application. Please Change "Henk" to something else.
+            //When you are testing the application.Please Change "Henk" to something else.
             try
             {
                 var resultAuth = await _fr.Authenticate(capturedImage, "Henk");
@@ -58,11 +58,11 @@ namespace SecureShare.Website.Controllers
                 ViewData["error"] = " ";
                 if (codeException.Message.Equals("1")){
                     ViewData["error"] = "There are no recognizable on the image.";
-                } else if (codeException.Message.Equals("2")){
+                }else if (codeException.Message.Equals("2")){
                     ViewData["error"] = "There are too many recognizable on the image.";
-                } else if (codeException.Message.Equals("3")){
+                }else if (codeException.Message.Equals("3")){
                     ViewData["error"] = "Something went wrong with getting the image again.";
-                }else if(codeException.Message.StartsWith("Could not find file")){
+                }else if (codeException.Message.StartsWith("Could not find file")){
                     ViewData["error"] = "The image is already deleted.";
                 }
                 return View(new ResultAuth(0));
