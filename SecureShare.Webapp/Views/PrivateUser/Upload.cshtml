@@ -1,26 +1,33 @@
-﻿<link rel="stylesheet" href="~/css/dashboard.css"/>
-
-
-<div class="container-fluid">
-    <div class="row">
-        @await Html.PartialAsync("_SidebarPartial")
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <form enctype="multipart/form-data" asp-controller="PrivateUser" asp-action="Upload" method="post" >
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <p>Upload one or more files using this form:</p>
-                        <input type="file" name="file" />
-                        <input type="text" name="sharedWith" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <input  type="submit" value="Upload"/>
-                    </div>
-                </div>
-
-            </form>
-
-        </main>
+﻿@{
+    Layout = "_DashboardLayout";
+}
+<h2>Upload a file</h2>
+<form enctype="multipart/form-data" asp-controller="PrivateUser" asp-action="Upload" method="post">
+    <div class="form-group col-md-3 px-0">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input " id="customFile" name="file">
+            <label class="custom-file-label " id="file-custom"for="customFile"> Choose file</label>
+        </div>
     </div>
-</div>
+    <div class="form-group col-md-3 px-0">
+        <label for="sharing">Share with:</label>
+        <input type="text" class="form-control" id="sharing" name="sharedWith"placeholder="User Id">
+    </div>
+    <div class="form-group col-md-3 px-0">
+        <button class="btn" type="submit" style="border-color: #ced4da;">Upload</button>
+
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        $("input[type=file]").change(function() {
+            var fieldVal = $(this).val();
+            var test = fieldVal.split("\\");
+            fieldVal = test[test.length - 1];
+            if (fieldVal != undefined) {
+                document.getElementById('file-custom').textContent = fieldVal;
+            }
+        });
+    </script>
+}

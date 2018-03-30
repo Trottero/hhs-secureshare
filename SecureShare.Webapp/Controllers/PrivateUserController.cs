@@ -49,14 +49,6 @@ namespace SecureShare.Webapp.Controllers
 			return View(files);
 		}
 
-		[HttpGet("sharedwithothers")]
-		public async Task<IActionResult> SharedWithOthers()
-		{
-			var userId = User.Claims
-				.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value;
-			var files = await _shareFileService.GetSharedWithUserAsync(userId);
-			return View(files);
-		}
 
 		[HttpGet("upload")]
 		public IActionResult Upload()
