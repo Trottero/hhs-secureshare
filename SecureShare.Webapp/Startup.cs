@@ -14,6 +14,8 @@ using SecureShare.Webapp.Services;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
+using SecureShare.Website.Controllers;
+using SecureShare.Website.Models;
 
 namespace SecureShare.Webapp
 {
@@ -58,6 +60,9 @@ namespace SecureShare.Webapp
             services.AddTransient<IHttpService, HttpService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserFileService, UserFileService>();
+            services.AddTransient<FileReader>();
+            var faceApiCoding = Configuration.GetSection("FaceApiCoding");
+            services.Configure<FaceApiCoding>(faceApiCoding);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
