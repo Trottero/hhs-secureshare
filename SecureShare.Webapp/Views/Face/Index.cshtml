@@ -12,7 +12,7 @@
     <div style="text-align: center;">
         <video id="screenshot-video" muted="" autoplay=""></video>
         <img id="screenshot-img">
-        <input type="button" id="btnSave" value="Take picture" onclick="Capture();"/>
+        <div><input type="button" id="btnSave" value="Take picture" onclick="Capture();"/></div>
         <div>
             Face authentication is enabled on this account. Take a picture of your face to proceed.
         </div>
@@ -25,77 +25,80 @@
         <canvas id="cancas"style="display: none;"></canvas>
     </div>
 
-    <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript">
-        function Capture() {
-            document.getElementById('btnSave').disabled = true;
+    @section Scripts {
 
-            var canvas = document.getElementById('cancas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            var dataStreamInput = canvas.toDataURL('image/jpg');
 
-            $.ajax({
-                type: 'POST',
-                url: "Face/Capture",
-                data: dataStreamInput,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'text'
-            }).done(function(capturedImagePath) {
-                window.location.href = '/Face/Result?capturedImage=' + capturedImagePath;
-            });
-        }
-    </script>
+        <script type="text/javascript">
+            function Capture() {
+                document.getElementById('btnSave').disabled = true;
 
-    <script>
-        var videoElement = document.querySelector('video');
-        var videoSelect = document.querySelector('#videoSource');
-        var img = document.querySelector('#screenshot-img');
-        var video = document.querySelector('#screenshot-video');
+                var canvas = document.getElementById('cancas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                var dataStreamInput = canvas.toDataURL('image/jpg');
 
-        navigator.mediaDevices.enumerateDevices()
-            .then(gotDevices).then(getStream).catch(handleError);
-
-        videoSelect.onchange = getStream;
-
-        function gotDevices(deviceInfos) {
-            for (var i = 0; i !== deviceInfos.length; ++i) {
-                var deviceInfo = deviceInfos[i];
-                var option = document.createElement('option');
-                option.value = deviceInfo.deviceId;
-                if (deviceInfo.kind === 'videoinput') {
-                    option.text = deviceInfo.label ||
-                        'camera ' +
-                        (videoSelect.length + 1);
-                    videoSelect.appendChild(option);
-                }
-            }
-        }
-
-        function getStream() {
-            if (window.stream) {
-                window.stream.getTracks().forEach(function(track) {
-                    track.stop();
+                $.ajax({
+                    type: 'POST',
+                    url: "Face/Capture",
+                    data: dataStreamInput,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'text'
+                }).done(function(capturedImagePath) {
+                    window.location.href = '/Face/Result?capturedImage=' + capturedImagePath;
                 });
             }
+        </script>
 
-            var constraints = {
-                video: {
-                    deviceId: { exact: videoSelect.value }
+        <script>
+            var videoElement = document.querySelector('video');
+            var videoSelect = document.querySelector('#videoSource');
+            var img = document.querySelector('#screenshot-img');
+            var video = document.querySelector('#screenshot-video');
+
+            navigator.mediaDevices.enumerateDevices()
+                .then(gotDevices).then(getStream).catch(handleError);
+
+            videoSelect.onchange = getStream;
+
+            function gotDevices(deviceInfos) {
+                for (var i = 0; i !== deviceInfos.length; ++i) {
+                    var deviceInfo = deviceInfos[i];
+                    var option = document.createElement('option');
+                    option.value = deviceInfo.deviceId;
+                    if (deviceInfo.kind === 'videoinput') {
+                        option.text = deviceInfo.label ||
+                            'camera ' +
+                            (videoSelect.length + 1);
+                        videoSelect.appendChild(option);
+                    }
                 }
-            };
+            }
 
-            navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
-        }
+            function getStream() {
+                if (window.stream) {
+                    window.stream.getTracks().forEach(function(track) {
+                        track.stop();
+                    });
+                }
 
-        function gotStream(stream) {
-            window.stream = stream; // make stream available to console
-            videoElement.srcObject = stream;
-        }
+                var constraints = {
+                    video: {
+                        deviceId: { exact: videoSelect.value }
+                    }
+                };
 
-        function handleError(error) {
-            console.error('Error: ', error);
-        }
-    </script>
+                navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
+            }
+
+            function gotStream(stream) {
+                window.stream = stream; // make stream available to console
+                videoElement.srcObject = stream;
+            }
+
+            function handleError(error) {
+                console.error('Error: ', error);
+            }
+        </script>
+    }
 </div>
