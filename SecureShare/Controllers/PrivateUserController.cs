@@ -28,7 +28,7 @@ namespace SecureShare.Website.Controllers
         {
             var id = new Guid(User.Claims
                 .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value);
-            var files = await _userFileService.GetFilesFromUser(id);
+            var files = await _userFileService.GetFilesFromUserAsync(id);
             return View(files);
         }
 
@@ -49,7 +49,7 @@ namespace SecureShare.Website.Controllers
         public async Task<IActionResult> DownloadFile(Guid id)
         {
             var userFile = await _userFileService.GetUserFileAsync(id);
-            var downloadInfo = await _userFileService.GetUserFileDownloadPath(userFile);
+            var downloadInfo = await _userFileService.GetUserFileDownloadPathAsync(userFile);
             return GetFileReadyToDownload(downloadInfo.RootPath, downloadInfo.FileName, downloadInfo.FileType);
         }
 
