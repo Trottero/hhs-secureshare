@@ -71,7 +71,7 @@ namespace SecureShare.Website.Controllers
             // Verification result contains IsIdentical (true or false) and Confidence (in range 0.0 ~ 1.0),
             // here we update verify result on UI by PersonVerifyResult binding
 
-            if (res.Confidence > 0.5)
+            if (res.Confidence > 0.7)
             {
                 await AddPersonFaceAsync(pathToUser, pId);
                 await Task.Delay(500);

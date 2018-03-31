@@ -12,7 +12,7 @@ namespace SecureShare.Website.Models
 
         public ResultAuth(double result)
         {
-            if (result > 0.5){
+            if (result > 0.7){
                 PersonVerifyResult = "The face belongs to the person. " +
                                      "We know that for " + result * 100 + "% sure.";
                 IsPerson = true;
