@@ -74,8 +74,19 @@ namespace SecureShare.Webapp.Pages.Account
                 return RedirectToPage("./Login");
             }
 
+            return RedirectToAction("Index", "Face", new {returnUrl = returnUrl});
+        }
+
+        public async Task<IActionResult> OnGetFinalizeAsync(string returnUrl)
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                //TODO: Redirect to an error page where it tells you that there was an issue with the login and that to keep retrying #137
+                return RedirectToPage("./Login");
+            }
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : false);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: false);
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);

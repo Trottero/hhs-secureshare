@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.ProjectOxford.Face;
+using SecureShare.Webapp.Extensions;
 using SecureShare.Website.Models;
 
 namespace SecureShare.Website.Controllers
@@ -35,9 +36,9 @@ namespace SecureShare.Website.Controllers
             s.Close();
 
             if (faces.Count() == 0)
-                throw new Exception("1");
+                throw new FaceAuthenticationException("There are no recognizable faces on the image.");
             if (faces.Count() > 1)
-                throw new Exception("2");
+                throw new FaceAuthenticationException("There are too many faces on the image.");
             var faceIds = faces.Select(face => face.FaceId).ToArray().First();
 
             Guid pId;
@@ -94,7 +95,7 @@ namespace SecureShare.Website.Controllers
             }
             catch (Exception)
             {
-                throw new Exception("3");
+                throw new FaceAuthenticationException("Something went wrong with getting the image again.");
             }
         }
 

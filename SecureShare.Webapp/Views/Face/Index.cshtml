@@ -1,28 +1,34 @@
-﻿
+﻿@model string
 <div id="result">
     @ViewData["Result"]
 </div>
 
 <div id="container">
+    <div class="text-danger" style="text-align: center;">@ViewData["error"]</div>
     <div style="visibility: hidden">
         <select id="videoSource"></select>
     </div>
 
-    <div style="text-align:center;">
+    <div style="text-align: center;">
         <video id="screenshot-video" muted="" autoplay=""></video>
         <img id="screenshot-img">
-        <input type="button" id="btnSave" value="Save Drawing" onclick="Capture();" />
+        <input type="button" id="btnSave" value="Take picture" onclick="Capture();"/>
         <div>
-            To use the face authenticate click te button bellow.
-            The image is allowed if there is only 1 recognizable face on it.
+            Face authentication is enabled on this account. Take a picture of your face to proceed.
         </div>
-        <canvas id="cancas"style="display:none;"></canvas>
+        <div>
+            Having issues authenticating?
+            <ul>Make sure that there's only one face on the shot</ul>
+            <ul>Make sure that there's plenty of lighting for your webcam to take a clear picture</ul>
+            <ul>Make sure that you allow the use of your webcam by this website.</ul>
+        </div>
+        <canvas id="cancas"style="display: none;"></canvas>
     </div>
-    
+
     <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
     <script type="text/javascript">
         function Capture() {
-            document.getElementById('btnSave').disabled = true; 
+            document.getElementById('btnSave').disabled = true;
 
             var canvas = document.getElementById('cancas');
             canvas.width = video.videoWidth;
@@ -36,7 +42,7 @@
                 data: dataStreamInput,
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'text'
-            }).done(function (capturedImagePath) {
+            }).done(function(capturedImagePath) {
                 window.location.href = '/Face/Result?capturedImage=' + capturedImagePath;
             });
         }
@@ -59,7 +65,8 @@
                 var option = document.createElement('option');
                 option.value = deviceInfo.deviceId;
                 if (deviceInfo.kind === 'videoinput') {
-                    option.text = deviceInfo.label || 'camera ' +
+                    option.text = deviceInfo.label ||
+                        'camera ' +
                         (videoSelect.length + 1);
                     videoSelect.appendChild(option);
                 }
@@ -68,7 +75,7 @@
 
         function getStream() {
             if (window.stream) {
-                window.stream.getTracks().forEach(function (track) {
+                window.stream.getTracks().forEach(function(track) {
                     track.stop();
                 });
             }
@@ -79,8 +86,7 @@
                 }
             };
 
-            navigator.mediaDevices.getUserMedia(constraints).
-                then(gotStream).catch(handleError);
+            navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
         }
 
         function gotStream(stream) {

@@ -7,7 +7,7 @@ namespace SecureShare.Website.Models
 {
     public class ResultAuth
     {
-        public double IsPerson { get; }
+        public bool IsPerson { get; }
         public string PersonVerifyResult { get; }
 
         public ResultAuth(double result)
@@ -15,11 +15,11 @@ namespace SecureShare.Website.Models
             if (result > 0.5){
                 PersonVerifyResult = "The face belongs to the person. " +
                                      "We know that for " + result * 100 + "% sure.";
-                IsPerson = result;
+                IsPerson = true;
             }else {
                 PersonVerifyResult = "The face not belong to the person. " +
-                                     "We know that for " + result * 100 + "% sure.";
-                IsPerson = result;
+                                     "We know that for " + (100 -(result * 100)) + "% sure.";
+                IsPerson = false;
             }
         }
     }

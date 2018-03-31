@@ -1,8 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using SecureShare.Webapp.Data;
+using SecureShare.Webapp.Extensions;
 using SecureShare.Website.Models;
 
 namespace SecureShare.Website.Controllers
@@ -11,16 +16,20 @@ namespace SecureShare.Website.Controllers
     {
         private readonly FileReader _fr;
         private readonly IHostingEnvironment _environment;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public FaceController(FileReader fr, IHostingEnvironment environment)
+
+        public FaceController(FileReader fr, IHostingEnvironment environment, SignInManager<ApplicationUser> signInManager)
         {
             _fr = fr;
             _environment = environment;
+            _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string returnUrl, string errorMessage)
         {
-            return View();
+            ViewData["error"] = errorMessage;
+            return View(returnUrl);
         }
 
         [HttpPost]
@@ -40,33 +49,52 @@ namespace SecureShare.Website.Controllers
 
             return capturedImage;
         }
-        
-        public async Task<IActionResult> Result(string capturedImage)
+
+        public async Task<IActionResult> Result(string capturedImage, string returnUrl)
         {
             //The second parameter should be removed for the user name.
             //When you are testing the application.Please Change "Henk" to something else.
+            var errorMessage = "";
             try
             {
-                var resultAuth = await _fr.Authenticate(capturedImage, "Giel");
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                var userId = info.Principal.Claims.Single(e =>
+                    e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value;
+                //var userId = "Henk";
+
+                var resultAuth = await _fr.Authenticate(capturedImage, userId);
                 System.IO.File.Delete(capturedImage);
-                ViewData["error"] = " ";
-                return View(resultAuth);
-            }
-            catch (Exception codeException)
-            {
-                System.IO.File.Delete(capturedImage);
-                ViewData["error"] = " ";
-                if (codeException.Message.Equals("1")){
-                    ViewData["error"] = "There are no recognizable on the image.";
-                }else if (codeException.Message.Equals("2")){
-                    ViewData["error"] = "There are too many recognizable on the image.";
-                }else if (codeException.Message.Equals("3")){
-                    ViewData["error"] = "Something went wrong with getting the image again.";
-                }else if (codeException.Message.StartsWith("Could not find file")){
-                    ViewData["error"] = "The image is already deleted.";
+                if (resultAuth.IsPerson)
+                {
+                    return RedirectToPage("/Account/ExternalLogin", "Finalize", new {returnUrl = returnUrl});
                 }
-                return View(new ResultAuth(0));
+
+                throw new FaceAuthenticationException(
+                    "Sorry, the face captured does not correspond to the saved faces for this account.");
+
             }
+            catch (FaceAuthenticationException codeException)
+            {
+                errorMessage = codeException.Message;
+
+            }
+            catch (FileNotFoundException exception)
+            {
+                errorMessage =
+                    "Something went wrong whilst deleting the temporary file on the server. If this issue persists please contact a system administrator.";
+            }
+            catch (Exception ex)
+            {
+                errorMessage =
+                    "Please contact your system administrator if this issue persists. Give them the following code for reference: " +
+                    ex.Message;
+            }
+            return RedirectToAction("Index", "Face",
+                new
+                {
+                    returnUrl = returnUrl,
+                    errorMessage = errorMessage
+                });
         }
     }
 }
