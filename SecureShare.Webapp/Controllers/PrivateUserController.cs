@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -47,6 +48,10 @@ namespace SecureShare.Webapp.Controllers
 			var userId = User.Claims
 				.Single(e => e.Type.Equals(NameIdentifierSchemaLocation)).Value;
 			var files = await _shareFileService.GetSharedWithUserAsync(userId);
+		    if (files == null)
+		    {
+                files = new List<UserFile>();
+		    }
 			return View(files);
 		}
 
