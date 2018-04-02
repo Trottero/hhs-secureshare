@@ -119,5 +119,10 @@ namespace SecureShare.Website.Controllers
                 }
             }
         }
+
+        private async Task DeleteAllFacesFromUser(Guid userGuid)
+        {
+            await _faceServiceClient.DeleteFaceListAsync(userGuid.ToString());
+        }
     }
 }
