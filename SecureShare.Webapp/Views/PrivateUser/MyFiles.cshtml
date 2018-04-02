@@ -4,8 +4,8 @@
 }
 
 
-<h2>My files @User.Claims.Single(e => e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value</h2>
-<div class="table-responsive">
+<h2>My files</h2>
+<div class="table-responsive"style="overflow-x: initial;">
     <table class="table table-hover table-sm">
         <thead>
         <tr>
@@ -18,7 +18,7 @@
         <tbody>
         @foreach (var file in Model)
         {
-            <tr>
+            <tr style="height: 1px;">
                 <td>@file.FileName</td>
                 <td>@file.UploadDateTime</td>
                 <td>
@@ -27,13 +27,13 @@
                     @user.User.DisplayName
                 }
                 </td>
-                <td>
+                <td style="height: inherit">
                     <!-- Default dropleft button -->
-                    <div class="btn-group dropleft" style="display:block">
-                        <span type="button " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="display:block" >
+                    <div class="btn-group dropleft" style="width: 100%; height: 100%;">
+                        <span type="button " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="display: block; width: 100%; height: 100%;" >
                             <i class=" fas fa-ellipsis-h" style="float:right"></i>
                         </span>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu dropdown-actions">
                             <a class="dropdown-item" asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId"><i class="fas fa-download"></i> Download</a>
                             <a class="dropdown-item" asp-controller="PrivateUser" asp-action="ShareFileWithUser" asp-route-id="@file.UserFileId"><i class="fas fa-share"></i> Share</a>
                             <a class="dropdown-item" asp-controller="PrivateUser" asp-action="DeleteFile" asp-route-id="@file.UserFileId"><i class="fas fa-trash-alt"></i> Delete</a>
