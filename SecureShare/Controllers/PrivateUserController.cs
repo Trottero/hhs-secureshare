@@ -26,8 +26,7 @@ namespace SecureShare.Website.Controllers
         [HttpGet("dashboard")]
         public async Task<IActionResult> Dashboard()
         {
-            var id = new Guid(User.Claims
-                .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value);
+            var id = new Guid(User.Claims.Single(e => e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value);
             var files = await _userFileService.GetFilesFromUserAsync(id);
             return View(files);
         }
@@ -41,7 +40,7 @@ namespace SecureShare.Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile file)
         {
-            var userfile = await _userFileService.AddUserFileAsync(file, new Guid(User.Claims.Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value));
+            var userfile = await _userFileService.AddUserFileAsync(file, new Guid(User.Claims.Single(e => e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value));
             return RedirectToAction("Dashboard");
         }
 
@@ -67,8 +66,7 @@ namespace SecureShare.Website.Controllers
         //This method should be called upon logging in. This checks if the user who is about to log in has registered if not, an account will be created for him.
         public async Task<IActionResult> CheckIfUserHasRegistered()
         {
-            var user = await _userService.GetUserAsync(User.Claims
-                .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value);
+            var user = await _userService.GetUserAsync(User.Claims.Single(e => e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value);
 
             //If the user doesn't exist, add him to the database!
             if (user == null)
@@ -77,8 +75,7 @@ namespace SecureShare.Website.Controllers
                 {
                     DisplayName = User.Claims
                       .Single(e => e.Type.Equals("name")).Value,
-                    UserId = new Guid(User.Claims
-                      .Single(e => e.Type.Equals("http://schemas.microsoft.com/identity/claims/objectidentifier")).Value)
+                    UserId = new Guid(User.Claims.Single(e => e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value)
                 });
             }
             return RedirectToAction("Dashboard", "PrivateUser");

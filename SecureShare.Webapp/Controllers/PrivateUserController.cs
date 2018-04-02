@@ -113,6 +113,10 @@ namespace SecureShare.Webapp.Controllers
 	    public async Task<IActionResult> ShareFileWithUser(Guid id)
         {
             var userFile = await _userFileService.GetUserFileAsync(id);
+            if (userFile == null)
+            {
+                return NotFound();
+            }
             var viewModel = new ShareFileViewModel
             {
                 FileToShare = userFile.UserFileId,
@@ -123,11 +127,17 @@ namespace SecureShare.Webapp.Controllers
 
 	    [HttpPost("share/{id}")]
         [ValidateAntiForgeryToken]
-	    public async Task<IActionResult> ShareFileWithUser([Bind("FileToShare,UserToShareWith")] ShareFileViewModel shareFileViewModel, Guid id)
+	    public async Task<IActionResult> ShareFileWithUser([Bind("FileToShare,UserToShareWith,Filename")] ShareFileViewModel shareFileViewModel, Guid id)
 	    {
 	        if (!ModelState.IsValid)
 	        {
 	            return NotFound();
+	        }
+	        var userToShareWith = await _userService.GetUserAsync(shareFileViewModel.UserToShareWith);
+	        if (userToShareWith == null)
+	        {
+	            ViewData["usererror"] = "That user does not exist";
+	            return View(shareFileViewModel);
 	        }
 	        await _shareFileService.ShareFileAsync(shareFileViewModel.FileToShare, shareFileViewModel.UserToShareWith);
 	        return RedirectToAction("MyFiles");

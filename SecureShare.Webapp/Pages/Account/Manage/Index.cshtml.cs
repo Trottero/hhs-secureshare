@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SecureShare.Webapp.Data;
 using SecureShare.Webapp.Services;
+using SecureShare.WebApi.Wrapper.Services.Interfaces;
 
 namespace SecureShare.Webapp.Pages.Account.Manage
 {
@@ -17,20 +19,25 @@ namespace SecureShare.Webapp.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly IUserService _userService;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _userService = userService;
         }
 
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
+
+        [DisplayName("Your unique id, use this to share files")]
+        public Guid UniqueIdentifier { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -58,7 +65,7 @@ namespace SecureShare.Webapp.Pages.Account.Manage
             }
 
             Username = user.UserName;
-
+            UniqueIdentifier = new Guid(User.Claims.Single(e => e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value);
             Input = new InputModel
             {
                 Email = user.Email,

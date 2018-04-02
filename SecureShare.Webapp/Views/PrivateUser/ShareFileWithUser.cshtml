@@ -5,18 +5,18 @@
 
 
 <form enctype="multipart/form-data" asp-controller="PrivateUser" asp-action="ShareFileWithUser" method="post">
-    <div class="form-group">
-        <div class="col-md-10">
-
-            Share file: @Model.Filename with another user
-            <br>
-            <input asp-for="UserToShareWith"/>
-            <input type="hidden" asp-for="FileToShare">
-        </div>
+    <div class="form-group col-md-3 px-0">
+        Share file: @Model.Filename with another user
     </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="submit" value="Share!"/>
-        </div>
+    <span class="text-danger">@ViewData["usererror"]</span>
+    <div class="form-group col-md-3 px-0">
+        <label for="sharing">Enter their unique user id:</label>
+        <input type="text" class="form-control" id="sharing" name="UserToShareWith" placeholder="User Id">
+    </div>
+
+    <input type="hidden" asp-for="FileToShare">
+    <input type="hidden" asp-for="Filename">
+    <div class="form-group col-md-3 px-0">
+        <button class="btn" type="submit" style="border-color: #ced4da;">Share</button>
     </div>
 </form>
