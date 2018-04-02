@@ -10,6 +10,7 @@ namespace SecureShare.Webapp.Models
 	{
 		public Guid FileToShare { get; set; }
         public string Filename { get; set; }
+        [Required]
         public Guid UserToShareWith { get; set; }
 	}
 }

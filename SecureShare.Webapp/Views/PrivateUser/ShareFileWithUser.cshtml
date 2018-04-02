@@ -8,10 +8,11 @@
     <div class="form-group col-md-3 px-0">
         Share file: @Model.Filename with another user
     </div>
-    <span class="text-danger">@ViewData["usererror"]</span>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group col-md-3 px-0">
         <label for="sharing">Enter their unique user id:</label>
         <input type="text" class="form-control" id="sharing" name="UserToShareWith" placeholder="User Id">
+        <span asp-validation-for="UserToShareWith" class="text-danger"></span>
     </div>
 
     <input type="hidden" asp-for="FileToShare">
