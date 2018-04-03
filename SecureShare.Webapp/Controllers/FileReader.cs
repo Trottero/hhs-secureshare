@@ -43,7 +43,7 @@ namespace SecureShare.Website.Controllers
 
             Guid pId;
             var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
-            var p = personList.Single(n => n.Name == userName);
+            var p = personList.SingleOrDefault(n => n.Name == userName);
 
             if (p == null)
             {
@@ -94,7 +94,7 @@ namespace SecureShare.Website.Controllers
         private async Task ImageControle(string userName)
         {
             var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
-            var p = personList.Single(n => n.Name == userName);
+            var p = personList.SingleOrDefault(n => n.Name == userName);
             try
             {
                 if (p.PersistedFaceIds.Length > 5)
