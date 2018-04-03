@@ -42,19 +42,10 @@ namespace SecureShare.Website.Controllers
             var faceIds = faces.Select(face => face.FaceId).ToArray().First();
 
             Guid pId;
-            bool found = false;
             var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
-                
-            foreach (var p in personList){ //Search for the user in the PersonGroup
-                if (p.Name == userName)
-                {
-                    pId = p.PersonId;
-                    found = true;
-                    break;
-                }
-            }
+            var p = personList.Single(n => n.Name == userName);
 
-            if (!found)
+            if (p == null)
             {
                 var person = await _faceServiceClient.CreatePersonAsync(_options.PersonGroupId, userName);
                 pId = person.PersonId;
@@ -62,12 +53,13 @@ namespace SecureShare.Website.Controllers
 
                 return new ResultAuth(1);
             }
+            pId = p.PersonId;
 
             var res = await _faceServiceClient.VerifyAsync(
-                Guid.Parse(faceIds.ToString()),  
-                 _options.PersonGroupId, //The image that will be compared with the facegroup images.
-                Guid.Parse(pId.ToString())                 //ID of the person.
-                );     //GroupId where the person is in.
+                Guid.Parse(faceIds.ToString()), //The image that will be compared with the facegroup images.
+                 _options.PersonGroupId,        //ID of the person.
+                Guid.Parse(pId.ToString())      //GroupId where the person is in.
+                );     
             // Verification result contains IsIdentical (true or false) and Confidence (in range 0.0 ~ 1.0),
             // here we update verify result on UI by PersonVerifyResult binding
 
@@ -102,21 +94,22 @@ namespace SecureShare.Website.Controllers
         private async Task ImageControle(string userName)
         {
             var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
-            foreach (var p in personList)
-            { //Search for the user in the PersonGroup
-                if (p.Name == userName)
+            var p = personList.Single(n => n.Name == userName);
+            try
+            {
+                if (p.PersistedFaceIds.Length > 5)
                 {
-                    if (p.PersistedFaceIds.Length > 5)
-                    {
-                        var first = p.PersistedFaceIds[0];
-                        await _faceServiceClient.DeletePersonFaceAsync(
-                            _options.PersonGroupId,
-                            p.PersonId,
-                            first);
-                    }
+                    var first = p.PersistedFaceIds[0];
+                    await _faceServiceClient.DeletePersonFaceAsync(
+                        _options.PersonGroupId,
+                        p.PersonId,
+                        first);
                     await _faceServiceClient.TrainPersonGroupAsync(_options.PersonGroupId);
-                    return;
                 }
+            }
+            catch (NullReferenceException nullExc)
+            {
+
             }
         }
 
