@@ -1,0 +1,3 @@
+﻿@model SecureShare.Website.Models.ResultAuth
+
+@(ViewData["error"].ToString().Length > 1 ? ViewData["error"] : Model.PersonVerifyResult)

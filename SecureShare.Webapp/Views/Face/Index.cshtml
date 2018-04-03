@@ -1,0 +1,104 @@
+﻿@model string
+<div id="result">
+    @ViewData["Result"]
+</div>
+
+<div id="container">
+    <div class="text-danger" style="text-align: center;">@ViewData["error"]</div>
+    <div style="visibility: hidden">
+        <select id="videoSource"></select>
+    </div>
+
+    <div style="text-align: center;">
+        <video id="screenshot-video" muted="" autoplay=""></video>
+        <img id="screenshot-img">
+        <div><input type="button" id="btnSave" value="Take picture" onclick="Capture();"/></div>
+        <div>
+            Face authentication is enabled on this account. Take a picture of your face to proceed.
+        </div>
+        <div>
+            Having issues authenticating?
+            <ul>Make sure that there's only one face on the shot</ul>
+            <ul>Make sure that there's plenty of lighting for your webcam to take a clear picture</ul>
+            <ul>Make sure that you allow the use of your webcam by this website.</ul>
+        </div>
+        <canvas id="cancas"style="display: none;"></canvas>
+    </div>
+
+    @section Scripts {
+
+
+        <script type="text/javascript">
+            function Capture() {
+                document.getElementById('btnSave').disabled = true;
+
+                var canvas = document.getElementById('cancas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                var dataStreamInput = canvas.toDataURL('image/jpg');
+
+                $.ajax({
+                    type: 'POST',
+                    url: "Face/Capture",
+                    data: dataStreamInput,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'text'
+                }).done(function(capturedImagePath) {
+                    window.location.href = '/Face/Result?capturedImage=' + capturedImagePath;
+                });
+            }
+        </script>
+
+        <script>
+            var videoElement = document.querySelector('video');
+            var videoSelect = document.querySelector('#videoSource');
+            var img = document.querySelector('#screenshot-img');
+            var video = document.querySelector('#screenshot-video');
+
+            navigator.mediaDevices.enumerateDevices()
+                .then(gotDevices).then(getStream).catch(handleError);
+
+            videoSelect.onchange = getStream;
+
+            function gotDevices(deviceInfos) {
+                for (var i = 0; i !== deviceInfos.length; ++i) {
+                    var deviceInfo = deviceInfos[i];
+                    var option = document.createElement('option');
+                    option.value = deviceInfo.deviceId;
+                    if (deviceInfo.kind === 'videoinput') {
+                        option.text = deviceInfo.label ||
+                            'camera ' +
+                            (videoSelect.length + 1);
+                        videoSelect.appendChild(option);
+                    }
+                }
+            }
+
+            function getStream() {
+                if (window.stream) {
+                    window.stream.getTracks().forEach(function(track) {
+                        track.stop();
+                    });
+                }
+
+                var constraints = {
+                    video: {
+                        deviceId: { exact: videoSelect.value }
+                    }
+                };
+
+                navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
+            }
+
+            function gotStream(stream) {
+                window.stream = stream; // make stream available to console
+                videoElement.srcObject = stream;
+            }
+
+            function handleError(error) {
+                console.error('Error: ', error);
+            }
+        </script>
+    }
+</div>
