@@ -53,31 +53,31 @@
             <div class="row item" style="overflow-y:scroll; height:500px; display: flex; display:none">
 
                 @foreach (var file in Model)
-                {
-                    <div class="card" id="items" style=" width:150px; height: 170px; ">
+    {
+            <div class="card" id="items" style=" width:150px; height: 170px; ">
 
-                        <div class="card-body" id="txt" style="overflow:hidden; text-overflow:ellipsis;">
-                            @file.FileName.ToString();
+                <div class="card-body" id="txt" style="overflow:hidden; text-overflow:ellipsis;">
+                    @file.FileName.ToString();
 
+                </div>
+
+                <!--File infortmation details-->
+                <div class="overlays">
+                    <div class="text">
+
+                        <div>@file.UploadDateTime</div>
+                        <div class="mt-2">
+                            <a asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">file_download</i></a>
+                            <a asp-controller="PrivateUser" asp-action="#" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">supervisor_account</i></a>
+                            <a asp-controller="PrivateUser" asp-action="#" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">delete</i></a>
                         </div>
 
-                        <!--File infortmation details-->
-                        <div class="overlays">
-                            <div class="text">
-                                
-                                <div>@file.UploadDateTime</div>
-                                <div class="mt-2">
-                                    <a asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">file_download</i></a>
-                                    <a asp-controller="PrivateUser" asp-action="#" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">supervisor_account</i></a>
-                                    <a asp-controller="PrivateUser" asp-action="#" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">delete</i></a>
-                                </div>
-
-                            </div>
-                        </div>
                     </div>
+                </div>
+            </div>
 
 
-                }
+}
             </div>
         </main>
     </div>

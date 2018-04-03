@@ -5,33 +5,33 @@
 
 <div id="mySidenav" class="sidenav mt-5  sidebar">
 
-    <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-1 mb-1 text-muted">
+    <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-0 mb-1 text-muted">
         <span style="font-size:18px;">My SecureShare</span>
         <a class="d-flex align-items-center text-muted" href="#">
             <span data-feather="plus-circle"></span>
         </a>
     </h5>
-   <a  asp-area="" asp-controller="PrivateUser" asp-action="Dashboard"><i class="material-icons align-middle mr-2">folder_open</i>My files</a>
-   <a  asp-area="" asp-controller="PrivateUser" asp-action="Dashboard"><i class="material-icons align-middle mr-2" >supervisor_account</i>Shared with me</a>
-    
+    <a asp-area="" asp-controller="PrivateUser" asp-action="MyFiles"><i class="material-icons align-middle mr-2">folder_open</i>My files</a>
+    <a asp-area="" asp-controller="PrivateUser" asp-action="SharedWithUser"><i class="material-icons align-middle mr-2">supervisor_account</i>Shared with me</a>
 
-    <a asp-area="" asp-controller="PrivateUser" asp-action="UploadAFile">
+
+    <a asp-area="" asp-controller="PrivateUser" asp-action="Upload">
         <i class="material-icons align-middle mr-2">cloud_upload</i>
         Upload file
     </a>
+
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
     <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <span style="font-size:18px;">My account</span>
         <a class="d-flex align-items-center text-muted" href="#">
-            <span data-feather="plus-circle" ></span>
+            <span data-feather="plus-circle"></span>
         </a>
+
     </h5>
-    <a href="#Submenu" data-toggle="collapse" aria-expanded="false"><i class="material-icons mr-2" style="vertical-align:middle;">settings</i>Settings</a>
-    <ul class="collapse list-unstyled" id="Submenu">
-        <li><a class="ml-2" style="font-size:14px" asp-area="" asp-controller="Account" asp-action="Manage">Profile</a></li>
-        <li><a class="ml-2" style="font-size:14px" asp-area="" asp-controller="Account" asp-action="Manage/TwoFactorAuthentication">Two-factor authentication</a></li>
-    </ul>
+    <a class="mr-2"  asp-area="" asp-controller="Account" asp-action="Manage"><i class="material-icons mr-2" style="vertical-align:middle;">settings</i>Profile</a>
+   
+
 </div>
 
 <div id="main">
