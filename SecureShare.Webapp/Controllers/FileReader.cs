@@ -118,7 +118,7 @@ namespace SecureShare.Website.Controllers
             {
                 await _faceServiceClient.DeleteFaceListAsync(userGuid.ToString());
             }
-            catch (Exception ex)
+            catch (FaceAPIException ex)
             {
                 throw new FaceAuthenticationException("The person does not have any images.");
             }
