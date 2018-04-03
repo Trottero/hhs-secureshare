@@ -95,7 +95,7 @@ namespace SecureShare.Website.Controllers
         {
             var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
             var p = personList.SingleOrDefault(n => n.Name == userName);
-            if(p == null) { 
+            if(p != null) { 
                 if (p.PersistedFaceIds.Length > 5)
                 {
                     var first = p.PersistedFaceIds.First();
