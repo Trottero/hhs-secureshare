@@ -1,0 +1,54 @@
+﻿<link rel="stylesheet" href="~/css/Sidenav.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+
+<div id="mySidenav" class="sidenav mt-5  sidebar">
+
+    <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-0 mb-1 text-muted">
+        <span style="font-size:18px;">My SecureShare</span>
+        <a class="d-flex align-items-center text-muted" href="#">
+            <span data-feather="plus-circle"></span>
+        </a>
+    </h5>
+    <a asp-area="" asp-controller="PrivateUser" asp-action="MyFiles"><i class="material-icons align-middle mr-2">folder_open</i>My files</a>
+    <a asp-area="" asp-controller="PrivateUser" asp-action="SharedWithUser"><i class="material-icons align-middle mr-2">supervisor_account</i>Shared with me</a>
+
+
+    <a asp-area="" asp-controller="PrivateUser" asp-action="Upload">
+        <i class="material-icons align-middle mr-2">cloud_upload</i>
+        Upload file
+    </a>
+
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+    <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span style="font-size:18px;">My account</span>
+        <a class="d-flex align-items-center text-muted" href="#">
+            <span data-feather="plus-circle"></span>
+        </a>
+
+    </h5>
+    <a class="mr-2"  asp-area="" asp-controller="Account" asp-action="Manage"><i class="material-icons mr-2" style="vertical-align:middle;">settings</i>Profile</a>
+   
+
+</div>
+
+<div id="main">
+    
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "230px";
+        
+
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+    }
+</script>
