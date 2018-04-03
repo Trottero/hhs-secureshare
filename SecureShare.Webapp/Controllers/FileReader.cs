@@ -112,11 +112,14 @@ namespace SecureShare.Website.Controllers
             }
         }
 
-        public async Task DeleteAllFacesFromUser(Guid userGuid)
+        public async Task DeleteAllFacesFromUser(string userProvierKey)
         {
             try
             {
-                await _faceServiceClient.DeleteFaceListAsync(userGuid.ToString());
+                var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
+                var person = personList.SingleOrDefault(n => n.Name == userProvierKey);
+                var personId = person.PersonId;
+                await _faceServiceClient.DeletePersonAsync(_options.PersonGroupId, personId);
             }
             catch (FaceAPIException ex)
             {

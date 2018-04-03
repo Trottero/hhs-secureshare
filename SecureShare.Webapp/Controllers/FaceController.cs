@@ -17,13 +17,16 @@ namespace SecureShare.Website.Controllers
         private readonly FileReader _fr;
         private readonly IHostingEnvironment _environment;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public FaceController(FileReader fr, IHostingEnvironment environment, SignInManager<ApplicationUser> signInManager)
+        public FaceController(FileReader fr, IHostingEnvironment environment, SignInManager<ApplicationUser> signInManager
+            , UserManager<ApplicationUser> userManager)
         {
             _fr = fr;
             _environment = environment;
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index(string returnUrl, string errorMessage)
@@ -61,7 +64,7 @@ namespace SecureShare.Website.Controllers
                 var userId = info.Principal.Claims.Single(e =>
                     e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value;
                 //var userId = "Henk";
-
+                
                 var resultAuth = await _fr.Authenticate(capturedImage, userId);
                 System.IO.File.Delete(capturedImage);
                 if (resultAuth.IsPerson)
@@ -97,13 +100,17 @@ namespace SecureShare.Website.Controllers
                 });
         }
 
-        [HttpPost("deleteimages/{id}")]
-        public async Task<IActionResult> DeleteImages(Guid id)
+        [HttpPost("deleteimages")]
+        public async Task<IActionResult> DeleteImages()
         {
+            var user = await _userManager.GetUserAsync(User);
+            var userlogins = await _userManager.GetLoginsAsync(user);
+            var providerKey = userlogins.First().ProviderKey;
+
             var message = "Your images have been succesfully deleted";
             try
             {
-                await _fr.DeleteAllFacesFromUser(id);
+                await _fr.DeleteAllFacesFromUser(providerKey);
             }
             catch (FaceAuthenticationException ex)
             {
