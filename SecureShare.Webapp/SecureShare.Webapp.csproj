@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\lib\qrcode\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SecureShare.WebApi.Wrapper\SecureShare.WebApi.Wrapper.csproj" />

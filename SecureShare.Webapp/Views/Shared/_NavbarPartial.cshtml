@@ -1,29 +1,26 @@
 ﻿<link rel="stylesheet" href="~/css/navbar.css"/>
 
-<nav class="navbar navbar-dark navbar-custom navbar-expand-lg sticky-top fixed-top" style="overflow:hidden;">
+<nav class="navbar navbar-dark navbar-custom navbar-expand-lg sticky-top fixed-top" style="overflow: hidden;">
     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SecureShare</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon" ></span>
+        <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse " id="navbar">
-        <ul class="navbar-nav mr-auto" >
-          
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item ">
                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" asp-area="" asp-controller="Price" asp-action="Index">Prices</a>
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Pricing">Pricing</a>
             </li>
-
             @if (User.Identity.IsAuthenticated)
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-area="" asp-controller="PrivateUser" asp-action="Dashboard">Dashboard</a>
-        </li>
-}
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="PrivateUser" asp-action="MyFiles">Dashboard</a>
+                </li>
+            }
         </ul>
-
         @await Html.PartialAsync("_LoginPartial")
     </div>
 </nav>
