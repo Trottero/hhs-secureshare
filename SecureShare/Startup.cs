@@ -8,7 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using SecureShare.WebApi.Wrapper.Models;
 using SecureShare.WebApi.Wrapper.Services;
 using SecureShare.WebApi.Wrapper.Services.Interfaces;
+using SecureShare.Website.Controllers;
 using SecureShare.Website.Extensions;
+using SecureShare.Website.Models;
 
 namespace SecureShare.Website
 {
@@ -38,8 +40,11 @@ namespace SecureShare.Website
 			services.Configure<ApiUrls>(apiUrls);
 			services.AddTransient<IHttpService, HttpService>();
 			services.AddTransient<IUserService, UserService>();
-			services.AddTransient<IUserFileService, UserFileService>();
-		}
+		    services.AddTransient<FileReader>();
+            services.AddTransient<IUserFileService, UserFileService>();
+		    var faceApiCoding = Configuration.GetSection("FaceApiCoding");
+		    services.Configure<FaceApiCoding>(faceApiCoding);
+        }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
