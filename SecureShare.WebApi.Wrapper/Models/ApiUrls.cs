@@ -4,6 +4,7 @@
 	{
 		public string UserUrl { get; set; }
 		public string FileUrl { get; set; }
+		public string ShareUrl { get; set; }
 		public string BlobFileUrl { get; set; }
 	}
 }

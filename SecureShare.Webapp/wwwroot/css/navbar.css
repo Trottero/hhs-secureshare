@@ -1,14 +1,10 @@
-﻿.navbar {
- 
-}
+﻿
 
 .navbar-custom {
     background-color: #123274;
 }
 .navbar-brand {
     color: white;
-    font-weight: bold;
-    font-size: 18px;
 }
 .navbar-brand:hover{
     color:white;
@@ -16,12 +12,14 @@
 
 .navbar-custom .navbar-nav .nav-link {
     color: White;
-    font-weight: 600;
-    font-size: 18px;
    
 }
-.navbar-custom .navbar-nav .nav-link:hover{
- color: #027b93;
+.nav-login {
+    color: white;
 }
+.nav-login:hover{
+    color: rgba(255,255,255,.75);
+}
+
 
 

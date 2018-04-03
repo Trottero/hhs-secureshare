@@ -23,9 +23,12 @@ namespace SecureShare.Website.Controllers
         {
             return View();
         }
+		public IActionResult Pricing()
+		{
+			return View();
+		}
 
-
-        [AllowAnonymous]
+		[AllowAnonymous]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});

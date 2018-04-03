@@ -13,6 +13,6 @@ namespace SecureShare.WebApi.Wrapper.Models
         public User User { get; set; }
         public UserFile UserFile { get; set; }
 
-        public DateTime ExperingDate { get; set; }
+        public DateTime ExpiringDate { get; set; }
     }
 }

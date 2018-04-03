@@ -8,8 +8,6 @@ namespace SecureShare.WebApi.Wrapper.Models
 {
 	public class UserFile : Entity
 	{
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		[Key]
 		public Guid UserFileId { get; set; }
 
 		[Required]

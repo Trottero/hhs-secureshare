@@ -1,0 +1,23 @@
+﻿@model SecureShare.Webapp.Models.ShareFileViewModel
+@{
+    Layout = "_DashboardLayout";
+}
+
+
+<form enctype="multipart/form-data" asp-controller="PrivateUser" asp-action="ShareFileWithUser" method="post">
+    <div class="form-group col-md-3 px-0">
+        Share file: @Model.Filename with another user
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group col-md-3 px-0">
+        <label for="sharing">Enter their unique user id:</label>
+        <input type="text" class="form-control" id="sharing" name="UserToShareWith" placeholder="User Id">
+        <span asp-validation-for="UserToShareWith" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" asp-for="FileToShare">
+    <input type="hidden" asp-for="Filename">
+    <div class="form-group col-md-3 px-0">
+        <button class="btn" type="submit" style="border-color: #ced4da;">Share</button>
+    </div>
+</form>
