@@ -61,8 +61,10 @@ namespace SecureShare.Webapp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext context)
         {
+            //migrates the database if there are any migrations in the migrations folder. DO NOT USE EnsureCreated() This will bypass all migrations!
+            context.Database.Migrate();
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
