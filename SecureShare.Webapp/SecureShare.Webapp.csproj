@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-SecureShare.Webapp-8BA3E5BD-124F-4B71-81F6-A4AA09A40D79</UserSecretsId>
+<RetryAttemptsForDeployment>20</RetryAttemptsForDeployment>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
