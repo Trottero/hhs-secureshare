@@ -95,7 +95,7 @@
     padding-top: 80px;
     text-align: center;
 }
-.card:hover .overlays .text {
+
 /*
  * Dropdown to share, download and delete files
 */
@@ -104,6 +104,7 @@
 }
 
 
+.card:hover .overlays .text {
     width: 150px;
     background: rgba(18, 50, 116, 0.93); /* Black see-through */
     height: 170px;

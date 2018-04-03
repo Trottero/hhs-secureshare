@@ -4,31 +4,97 @@
 }
 
 
-<h2>Shared with me</h2>
-<div class="table-responsive">
-    <table class="table table-striped  table-bordered table-sm">
+<div class="row ">
+    <div class="col-md-6"><h2>Shared with me</h2></div>
+    <div class="col-md-6 ">
+        <div class="btn-group " role="group" style="float:right;">
+            <button type="button" id="list" class="btn btn-secondary btn-sm" style="background-color:transparent; border:none;"><i class="material-icons" style="color:#123274;">list</i></button>
+            <button type="button" id="grid" class="btn btn-secondary btn-sm" style="background-color:transparent; border:none;"><i class="material-icons" style="color:#123274;">grid_on</i></button>
+        </div>
+    </div>
+
+
+</div>
+<div class="table-responsive" style="overflow-x: initial;">
+    <table class="table table-hover table-sm lijst">
         <thead>
-        <tr>
-            <th>#</th>
-            <th>File name</th>
-            <th>Description</th>
-            <th>Uploaded</th>
-            <th>Download</th>
-        </tr>
+            <tr>
+                <th>File name</th>
+                <th>Uploaded</th>
+                
+                <th>Menu</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var file in Model)
-        {
-            <tr>
-                <td>@file.UserFileId</td>
-                <td>@file.FileName</td>
-                <td>@file.Description</td>
-                <td>@file.UploadDateTime</td>
-                <td>
-                    <a asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId">Download</a>
-                </td>
-            </tr>
-        }
+            @foreach (var file in Model)
+            {
+                <tr style="height: 1px;">
+                    <td>@file.FileName</td>
+                    <td>@file.UploadDateTime</td>
+                  
+                    <td style="height: inherit">
+                        <!-- Default dropleft button -->
+                        <div class="btn-group dropleft" style="width: 100%; height: 100%;">
+                            <span type="button " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block; width: 100%; height: 100%;">
+                                <i class=" fas fa-ellipsis-h" style="float:right"></i>
+                            </span>
+                            <div class="dropdown-menu dropdown-actions">
+                                <a class="dropdown-item" asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId"><i class="fas fa-download"></i> Download</a>
+                                <a class="dropdown-item" asp-controller="PrivateUser" asp-action="ShareFileWithUser" asp-route-id="@file.UserFileId"><i class="fas fa-share"></i> Share</a>
+                                <a class="dropdown-item" asp-controller="PrivateUser" asp-action="DeleteFile" asp-route-id="@file.UserFileId"><i class="fas fa-trash-alt"></i> Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
+
+<div class="row item" style="overflow-y:scroll; height:500px; display: flex; display:none">
+
+    @foreach (var file in Model)
+    {
+        <div class="card" id="items" style=" width:150px; height: 170px; overflow:hidden; ">
+
+            <div class="card-body" id="txt" style="overflow:hidden; text-overflow:ellipsis;">
+                @file.FileName.ToString();
+
+            </div>
+
+            <!--File infortmation details-->
+            <div class="overlays">
+                <div class="text">
+
+                    <div>@file.UploadDateTime</div>
+                    <div class="mt-2">
+                        <a asp-controller="PrivateUser" asp-action="DownloadFile" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">file_download</i></a>
+                        <a asp-controller="PrivateUser" asp-action="ShareFileWithUser" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">supervisor_account</i></a>
+                        <a asp-controller="PrivateUser" asp-action="DeleteFile" asp-route-id="@file.UserFileId"><i class="material-icons align-middle ml-2" style="color:white; ">delete</i></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    }
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#list").click(function () {
+                $(".item").hide();
+                $(".lijst").show();
+            });
+            $("#grid").click(function () {
+                $(".item").show();
+                $(".lijst").hide();
+            });
+        });
+    </script>
+
+
+}
