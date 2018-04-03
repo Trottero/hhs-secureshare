@@ -1,20 +1,31 @@
-﻿<link rel="stylesheet" href="~/css/dashboard.css"/>
-
+﻿<link rel="stylesheet" href="~/css/dashboard.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
 <div class="container-fluid">
     <div class="row">
-        @await Html.PartialAsync("_SidebarPartial")
+        @await Html.PartialAsync("_SideNav")
+
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <form method="post" enctype="multipart/form-data" asp-controller="PrivateUser" asp-action="Upload">
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <p>Upload one or more files using this form:</p>
-                        <input type="file" name="file"/>
+            <!-------Header mage------>
+            <div class="text-center hrow" style="align-self:center;">
+                <img class="img-fluid img-responsive" src="~/images/header2.jpg" style="width:80%; height:80% " />
+                <h1 id="txt" style=" color:black; text-shadow: 1px 1px 3px #000000;"><b>Upload one or more files using this form:</b></h1>
+            </div>
+
+            <!------Form------->
+            <form method="post" enctype="multipart/form-data" asp-controller="PrivateUser" asp-action="Upload" id="form">
+                <div class="form-group mt-5">
+
+                    <div class="col-md-10 text-center">
+
+
+                        <input type="file" name="file" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <input type="submit" value="Upload"/>
+                <div class="form-group mt-5">
+                    <div class="col-md-10 text-center">
+                        <button id="uploadFile" class="btn btn-primary" type="submit" value="Upload"> Upload<i class="material-icons align-middle" style=" margin-left:7px;">cloud_upload</i></button>
                     </div>
                 </div>
             </form>

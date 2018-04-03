@@ -1,0 +1,54 @@
+﻿<link rel="stylesheet" href="~/css/Sidenav.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+
+<div id="mySidenav" class="sidenav mt-5  sidebar">
+
+    <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>My SecureShare</span>
+        <a class="d-flex align-items-center text-muted" href="#">
+            <span data-feather="plus-circle"></span>
+        </a>
+    </h5>
+   <a  asp-area="" asp-controller="PrivateUser" asp-action="Dashboard">My files</a>
+   <a  asp-area="" asp-controller="PrivateUser" asp-action="Dashboard">Shared with me</a>
+    
+
+    <a asp-area="" asp-controller="PrivateUser" asp-action="UploadAFile">
+        Upload file
+        <i class="material-icons align-middle" style=" margin-left:7px;">cloud_upload</i>
+    </a>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+    <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>My account</span>
+        <a class="d-flex align-items-center text-muted" href="#">
+            <span data-feather="plus-circle"></span>
+        </a>
+    </h5>
+    <a href="#Submenu" data-toggle="collapse" aria-expanded="false">Settings<i class="material-icons ml-2" style="vertical-align:middle;">settings</i></a>
+    <ul class="collapse list-unstyled" id="Submenu">
+        <li><a class="ml-2" style="font-size:18px" asp-area="" asp-controller="Account" asp-action="Manage">Profile</a></li>
+        <li><a class="ml-2" style="font-size:18px" asp-area="" asp-controller="Account" asp-action="Manage/TwoFactorAuthentication">Two-factor authentication</a></li>
+    </ul>
+</div>
+
+<div id="main">
+    
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "230px";
+        
+
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+    }
+</script>
