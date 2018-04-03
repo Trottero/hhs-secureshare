@@ -96,5 +96,21 @@ namespace SecureShare.Website.Controllers
                     errorMessage = errorMessage
                 });
         }
+
+        [HttpPost("deleteimages/{id}")]
+        public async Task<IActionResult> DeleteImages(Guid id)
+        {
+            var message = "Your images have been succesfully deleted";
+            try
+            {
+                await _fr.DeleteAllFacesFromUser(id);
+            }
+            catch (FaceAuthenticationException ex)
+            {
+                message = ex.Message;
+            }
+            this.RouteData.Values.Clear();
+            return RedirectToPage("/Account/Manage/Index", new { message = message});
+        }
     }
 }

@@ -150,11 +150,7 @@ namespace SecureShare.Webapp.Controllers
             return RedirectToAction("MyFiles");
         }
 
-        [HttpPost("deleteimages/{id}")]
-        public async Task<IActionResult> DeleteImages(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        
         
 		[NonAction]
 		private FileResult GetFileReadyToDownload(string rootPath, string fileName, string fileType)
