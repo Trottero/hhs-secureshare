@@ -112,9 +112,16 @@ namespace SecureShare.Website.Controllers
             }
         }
 
-        private async Task DeleteAllFacesFromUser(Guid userGuid)
+        public async Task DeleteAllFacesFromUser(Guid userGuid)
         {
-            await _faceServiceClient.DeleteFaceListAsync(userGuid.ToString());
+            try
+            {
+                await _faceServiceClient.DeleteFaceListAsync(userGuid.ToString());
+            }
+            catch (FaceAPIException ex)
+            {
+                throw new FaceAuthenticationException("The person does not have any images.");
+            }
         }
     }
 }

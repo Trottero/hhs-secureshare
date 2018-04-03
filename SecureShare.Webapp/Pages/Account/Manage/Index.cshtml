@@ -8,20 +8,25 @@
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 <div class="row">
     <div class="col-md-6">
-       
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Username"></label>
+            <input asp-for="Username" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="UniqueIdentifier"></label>
+            <input asp-for="UniqueIdentifier" class="form-control" disabled />
+        </div>
+        <form enctype="multipart/form-data" asp-controller="Face" asp-action="DeleteImages" asp-route-id="@Model.UniqueIdentifier" method="post">
+            <div>
+                <label>If you want to delete every image that you have used for facial authentication click on the button below</label>
+                <button class="btn" type="submit" style="border-color: #ced4da;">Delete my images</button>
             </div>
-            <div class="form-group">
-                <label asp-for="UniqueIdentifier"></label>
-                <input asp-for="UniqueIdentifier" class="form-control"  />
-            </div>
-            
-            @*<button type="submit" class="btn btn-default">Save</button>*@
+        </form>
+        <label>@ViewData["message"]</label>
+
     </div>
-</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

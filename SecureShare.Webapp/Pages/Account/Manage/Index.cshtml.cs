@@ -56,7 +56,7 @@ namespace SecureShare.Webapp.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string message = "")
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -74,6 +74,7 @@ namespace SecureShare.Webapp.Pages.Account.Manage
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
 
+            ViewData["message"] = message;
             return Page();
         }
 
