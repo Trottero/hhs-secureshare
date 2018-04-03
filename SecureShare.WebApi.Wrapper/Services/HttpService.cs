@@ -46,26 +46,26 @@ namespace SecureShare.WebApi.Wrapper.Services
 			return response.Content;
 		}
 
-	    public async Task<HttpContent> PostRequestAsync<T>(IFormFile formFile)
-	    {
-            //convert the formfile to multipartformdatacontent
-	        byte[] data;
-	        using (var br = new BinaryReader(formFile.OpenReadStream()))
-	            data = br.ReadBytes((int)formFile.OpenReadStream().Length);
+		public async Task<HttpContent> PostRequestAsync<T>(IFormFile formFile)
+		{
+			//convert the formfile to multipartformdatacontent
+			byte[] data;
+			using (var br = new BinaryReader(formFile.OpenReadStream()))
+				data = br.ReadBytes((int) formFile.OpenReadStream().Length);
 
-	        var bytes = new ByteArrayContent(data);
-	        var multiContent = new MultipartFormDataContent();
-	        multiContent.Add(bytes, "file", formFile.FileName);
+			var bytes = new ByteArrayContent(data);
+			var multiContent = new MultipartFormDataContent();
+			multiContent.Add(bytes, "file", formFile.FileName);
 
 
-            var requestUrl = GetEntityRequestUri<T>();
-         //   var httpMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-         //   httpMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-	        //httpMessage.Content = multiContent;
+			var requestUrl = GetEntityRequestUri<T>();
+			//   var httpMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+			//   httpMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+			//httpMessage.Content = multiContent;
 
-            HttpResponseMessage response = await _client.PostAsync(requestUrl, multiContent);
-	        return response.Content;
-	    }
+			HttpResponseMessage response = await _client.PostAsync(requestUrl, multiContent);
+			return response.Content;
+		}
 
 		public async Task<HttpContent> DeleteRequestAsync<T>(string entityId)
 		{
@@ -74,17 +74,18 @@ namespace SecureShare.WebApi.Wrapper.Services
 			return response.Content;
 		}
 
-	    public async Task<HttpContent> GetOneRequestAsync<T>(string entityId, string extension)
-	    {
-	        var requestUrl = GetEntityRequestUri<T>();
-	        HttpResponseMessage response = await _client.GetAsync(requestUrl+ extension + entityId);
-	        return response.Content;
-        }
+		public async Task<HttpContent> GetOneRequestAsync<T>(string entityId, string extension)
+		{
+			var requestUrl = GetEntityRequestUri<T>();
+			HttpResponseMessage response = await _client.GetAsync(requestUrl + extension + entityId);
+			return response.Content;
+		}
 
-	    private Uri GetEntityRequestUri<T>()
+		private Uri GetEntityRequestUri<T>()
 		{
 			if (typeof(T) == typeof(User)) return new Uri(_options.UserUrl);
 			if (typeof(T) == typeof(UserFile)) return new Uri(_options.FileUrl);
+			if (typeof(T) == typeof(Users_UserFiles)) return new Uri(_options.ShareUrl);
 			if (typeof(T) == typeof(FileStream)) return new Uri(_options.BlobFileUrl);
 			throw new NullReferenceException();
 		}

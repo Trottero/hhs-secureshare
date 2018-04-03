@@ -96,6 +96,12 @@
     text-align: center;
 }
 .card:hover .overlays .text {
+/*
+ * Dropdown to share, download and delete files
+*/
+.dropdown-actions {
+    z-index: 1200;
+}
 
 
     width: 150px;
