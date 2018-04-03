@@ -95,11 +95,10 @@ namespace SecureShare.Website.Controllers
         {
             var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
             var p = personList.SingleOrDefault(n => n.Name == userName);
-            try
-            {
+            if(p == null) { 
                 if (p.PersistedFaceIds.Length > 5)
                 {
-                    var first = p.PersistedFaceIds[0];
+                    var first = p.PersistedFaceIds.First();
                     await _faceServiceClient.DeletePersonFaceAsync(
                         _options.PersonGroupId,
                         p.PersonId,
@@ -107,9 +106,9 @@ namespace SecureShare.Website.Controllers
                     await _faceServiceClient.TrainPersonGroupAsync(_options.PersonGroupId);
                 }
             }
-            catch (NullReferenceException nullExc)
+            else
             {
-
+                throw new FaceAuthenticationException("The person is gone.");
             }
         }
 
