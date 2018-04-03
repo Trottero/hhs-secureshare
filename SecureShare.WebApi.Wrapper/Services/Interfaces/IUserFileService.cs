@@ -12,13 +12,12 @@ namespace SecureShare.WebApi.Wrapper.Services.Interfaces
 		Task<UserFile> DeleteUserFileAsync(Guid id);
 		Task<UserFile> DeleteUserFileAsync(string id);
 		Task<UserFile> DeleteUserFileAsync(UserFile userFile);
-//		Task<IEnumerable<UserFile>> GetAllUserFilesAsync();
 		Task<UserFile> GetUserFileAsync(Guid id);
 		Task<UserFile> GetUserFileAsync(string id);
 		Task<UserFile> GetUserFileAsync(UserFile file);
-        Task<FileDownloadInfo> GetUserFileDownloadPath(UserFile file);
-
-	    Task<IEnumerable<UserFile>> GetFilesFromUser(Guid id);
-
+		Task<FileDownloadInfo> GetUserFileDownloadPathAsync(UserFile file);
+		Task<IEnumerable<UserFile>> GetFilesFromUserAsync(Guid id);
+		Task<IEnumerable<UserFile>> GetFilesFromUserAsync(string id);
+		Task<IEnumerable<UserFile>> GetFilesFromUserAsync(User user);
 	}
 }
