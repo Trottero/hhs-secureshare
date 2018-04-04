@@ -1,4 +1,5 @@
 ﻿@model string
+
 <div id="result">
     @ViewData["Result"]
 </div>
@@ -10,7 +11,7 @@
     </div>
 
     <div style="text-align: center;">
-        <video id="screenshot-video" muted="" autoplay=""></video>
+        <video style="width: 100%;max-width: 650px;height: auto;" id="screenshot-video" muted="" autoplay=""></video>
         <img id="screenshot-img">
         <div><input type="button" id="btnSave" value="Take picture" onclick="Capture();"/></div>
         <div>
@@ -26,8 +27,6 @@
     </div>
 
     @section Scripts {
-
-
         <script type="text/javascript">
             function Capture() {
                 document.getElementById('btnSave').disabled = true;

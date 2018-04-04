@@ -38,11 +38,12 @@ namespace SecureShare.Website.Controllers
         [HttpPost]
         public string Capture()
         {
+            //Make a name for the new image and a path to the new image
             string imageName = DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss");
             string capturedImage = Path.Combine(Path.GetTempPath(), $"{imageName}.jpg");
 
             using (var reader = new StreamReader(HttpContext.Request.Body, System.Text.Encoding.UTF8))
-            {
+            {   //Get the stream of data from the webcam and create a JPG from it to the path made above
                 string hexString = reader.ReadToEnd();
                 hexString = hexString.Substring(hexString.IndexOf(',') + 1);
                 byte[] data = Convert.FromBase64String(hexString);
@@ -55,16 +56,14 @@ namespace SecureShare.Website.Controllers
 
         public async Task<IActionResult> Result(string capturedImage, string returnUrl)
         {
-            //The second parameter should be removed for the user name.
-            //When you are testing the application.Please Change "Henk" to something else.
             var errorMessage = "";
             try
-            {
+            {   //Get the current user ID.
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 var userId = info.Principal.Claims.Single(e =>
                     e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value;
-                //var userId = "Henk";
                 
+                //Sent the path of the image and the userId for authentication.
                 var resultAuth = await _fr.Authenticate(capturedImage, userId);
                 System.IO.File.Delete(capturedImage);
                 if (resultAuth.IsPerson)

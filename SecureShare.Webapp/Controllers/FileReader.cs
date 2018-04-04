@@ -28,17 +28,19 @@ namespace SecureShare.Website.Controllers
         public async Task<ResultAuth> Authenticate(string pathToUser, string userName)
         {
             //await RecreateGroup();
+            //Get the image from the path and get the face data from it.
+            //Close the stream 
             Stream s = File.OpenRead(pathToUser);
-            //If there is no face on the image an error wil appear.
-            //If there are more faces on one image throw an error.
             var faces = await _faceServiceClient.DetectAsync(s);
             s.Dispose();
             s.Close();
 
             if (faces.Count() == 0)
                 throw new FaceAuthenticationException("There are no recognizable faces on the image.");
+            //If there is no face on the image an error wil appear.
             if (faces.Count() > 1)
                 throw new FaceAuthenticationException("There are too many faces on the image.");
+            //If there are more faces on one image throw an error.
             var faceIds = faces.Select(face => face.FaceId).ToArray().First();
 
             Guid pId;
@@ -91,6 +93,8 @@ namespace SecureShare.Website.Controllers
             }
         }
 
+        //Look in the API if the given user has more than 5 images/faces to his/her name.
+        //If there are more than 5 images/faces, remove the first
         private async Task ImageControle(string userName)
         {
             var personList = await _faceServiceClient.GetPersonsAsync(_options.PersonGroupId);
