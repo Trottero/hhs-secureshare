@@ -18,7 +18,7 @@
             <label asp-for="UniqueIdentifier"></label>
             <input asp-for="UniqueIdentifier" class="form-control" disabled />
         </div>
-        <form enctype="multipart/form-data" asp-controller="Face" asp-action="DeleteImages" asp-route-id="@Model.UniqueIdentifier" method="post">
+        <form enctype="multipart/form-data" asp-controller="Face" asp-action="DeleteImages" method="post">
             <div>
                 <label>If you want to delete every image that you have used for facial authentication click on the button below</label>
                 <button class="btn" type="submit" style="border-color: #ced4da;">Delete my images</button>
