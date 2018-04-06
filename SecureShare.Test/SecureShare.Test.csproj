@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SecureShare.WebApi.Wrapper\SecureShare.WebApi.Wrapper.csproj" />
+    <ProjectReference Include="..\SecureShare.Webapp\SecureShare.Webapp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
