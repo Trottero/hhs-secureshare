@@ -64,12 +64,12 @@ namespace SecureShare.Website.Controllers
                     e.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")).Value;
                 
                 //Sent the path of the image and the userId for authentication.
-                var resultAuth = await _fr.Authenticate(capturedImage, userId);
-                System.IO.File.Delete(capturedImage);
-                if (resultAuth.IsPerson)
-                {
+                //var resultAuth = await _fr.Authenticate(capturedImage, userId);
+                //System.IO.File.Delete(capturedImage);
+                //if (resultAuth.IsPerson)
+                //{
                     return RedirectToPage("/Account/ExternalLogin", "Finalize", new {returnUrl = returnUrl});
-                }
+                //}
 
                 throw new FaceAuthenticationException(
                     "Sorry, the face captured does not correspond to the saved faces for this account.");
